@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Label } from "$lib/components/ui/label/index.js";
     import { Badge } from "$lib/components/ui/badge/index.js";
-    import X from "@lucide/svelte/icons/x";
+    import XIcon from "@lucide/svelte/icons/x";
 
     interface Props {
         list: string[];
@@ -35,7 +35,7 @@
                         onclick={() => handleX(e)}
                         class="hover:enabled:cursor-pointer"
                     >
-                        <X class="w-4 h-4" />
+                        <XIcon class="w-4 h-4" />
                     </button>
                 {/if}
             </Badge>

@@ -1,76 +1,36 @@
-<script>
-    import { goto } from "$app/navigation";
-    import House from "@lucide/svelte/icons/house";
-    import { auth } from "../features/auth/store.svelte";
+<script lang="ts">
     import { Button } from "$lib/components/ui/button/index.js";
     import Input from "$lib/components/ui/input/input.svelte";
     import Search from "@lucide/svelte/icons/search";
-
-    $effect(() => {
-        if (auth.token) {
-            goto("/");
-        }
-    });
+    import { auth } from "../../features/auth/store.svelte";
+    import CardNuevoProyecto from "../../features/general/proyectos/componentes/CardNuevoProyecto.svelte";
+    import Pasos from "$lib/components/Pasos.svelte";
 </script>
-
-<header class="px-80 py-2 flex justify-between bg-[#9b192d] text-secondary">
-    <img class="w-60" src="/logo-unsaac-white.png" alt="logo-unsaac" />
-    <div class="flex gap-4 items-start">
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal"
-        >
-            Reglamento
-        </Button>
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal"
-        >
-            Estadisticas
-        </Button>
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal"
-            onclick={() => goto("/login")}
-        >
-            Acceder
-        </Button>
-    </div>
-</header>
-
-<div class="px-80 text-secondary">
-    <div class="px-4 py-1 rounded-b-lg flex gap-4 bg-[#9b192d] opacity-75">
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal px-0"
-            onclick={() => goto("/")}
-        >
-            <House />
-            Repositorio Institucional
-        </Button>
-    </div>
-</div>
 
 <div class="px-80 py-5 grid grid-cols-3 gap-2">
     <div class="col-span-2 px-5 flex flex-col gap-8">
         <div class="flex flex-col gap-3">
             <h2 class="text-2xl">
-                Bienvenidos al Repositorio Institucional de la Universidad
-                Nacional de San Antonio Abad del Cusco
+                Bienvenido {auth.user?.username}
                 <hr class="my-2" />
             </h2>
             <p>
-                Una plataforma digital para almacenar, preservar y difundir la
-                producción académica, científica, tecnológica y cultural de la
-                comunidad universitaria, asegurando interoperabilidad,
-                integridad de datos y protección de la propiedad intelectual, a
-                fin de facilitar la búsqueda, recuperación y reutilización de
-                recursos para el avance del conocimiento.
+                <span class="font-semibold">Tesys</span> está diseñado para acompañarte
+                en el proceso de tu tesis, brindándote herramientas que facilitan
+                la organización, el seguimiento y la gestión de cada etapa. Con su
+                ayuda podrás optimizar tu tiempo, mantener tus avances en orden y
+                contar con un soporte confiable que te motive a dar cada paso.
             </p>
+
+            <div>
+                <span class="font-semibold">Sigue los siguientes pasos: </span>
+                <Pasos />
+            </div>
+
+            <div class="my-4 flex gap-4 items-center">
+                <span class="font-semibold">Crea tu primer proyecto: </span>
+                <CardNuevoProyecto />
+            </div>
         </div>
 
         <div class="flex flex-col gap-3">

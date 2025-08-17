@@ -6,6 +6,7 @@
     import ChevronsUpDown from "@lucide/svelte/icons/chevrons-up-down";
     import LogOut from "@lucide/svelte/icons/log-out";
     import { auth } from "../../features/auth/store.svelte";
+    import UserBagde from "./UserBagde.svelte";
 
     interface NavUserProps {
         username: string;
@@ -17,14 +18,18 @@
 
     const sidebar = useSidebar();
 
+    // let letters = $derived.by(() => {
+    //     return username
+    //         ? username
+    //               .split(" ")
+    //               .map((n) => n[0])
+    //               .join("")
+    //               .toUpperCase()
+    //         : "Inv";
+    // });
+
     let letters = $derived.by(() => {
-        return username
-            ? username
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")
-                  .toUpperCase()
-            : "Inv";
+        return username ? username.trim().split(" ")[0][0].toUpperCase() : "I";
     });
 </script>
 
@@ -38,20 +43,7 @@
                         class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         {...props}
                     >
-                        <Avatar.Root class="h-8 w-8 rounded-lg">
-                            <Avatar.Image src={avatar} alt={username} />
-                            <Avatar.Fallback class="rounded-lg">
-                                {letters}
-                            </Avatar.Fallback>
-                        </Avatar.Root>
-                        <div
-                            class="grid flex-1 text-left text-sm leading-tight"
-                        >
-                            <span class="truncate font-semibold">
-                                {username}
-                            </span>
-                            <span class="truncate text-xs">{email}</span>
-                        </div>
+                        <UserBagde {username} {email} {avatar} />
                         <ChevronsUpDown class="ml-auto size-4" />
                     </Sidebar.MenuButton>
                 {/snippet}
@@ -66,20 +58,7 @@
                     <div
                         class="flex items-center gap-2 px-1 py-1.5 text-left text-sm"
                     >
-                        <Avatar.Root class="h-8 w-8 rounded-lg">
-                            <Avatar.Image src={avatar} alt={username} />
-                            <Avatar.Fallback class="rounded-lg">
-                                {letters}
-                            </Avatar.Fallback>
-                        </Avatar.Root>
-                        <div
-                            class="grid flex-1 text-left text-sm leading-tight"
-                        >
-                            <span class="truncate font-semibold"
-                                >{username}</span
-                            >
-                            <span class="truncate text-xs">{email}</span>
-                        </div>
+                        <UserBagde {username} {email} {avatar} />
                     </div>
                 </DropdownMenu.Label>
                 <DropdownMenu.Separator />

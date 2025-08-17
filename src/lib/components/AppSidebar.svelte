@@ -41,7 +41,7 @@
                     >
                         <GalleryVerticalEnd
                             class="size-4 hover:cursor-pointer"
-                            onclick={() => goto("/")}
+                            onclick={() => goto("/home")}
                         />
                     </div>
                     <div class="grid flex-1 text-left text-sm leading-tight">

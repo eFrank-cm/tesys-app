@@ -2,7 +2,6 @@
 	import "../app.css";
 	import { goto } from "$app/navigation";
 	import { auth } from "../features/auth/store.svelte";
-	import Filetext from "@lucide/svelte/icons/file-text";
 	import Folder from "@lucide/svelte/icons/folder";
 	import Bell from "@lucide/svelte/icons/bell";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
@@ -21,21 +20,16 @@
 			url: "/proyectos",
 			icon: Folder,
 		},
-		{
-			title: "Documentos",
-			url: "/documentos",
-			icon: Filetext,
-		},
 	];
 
 	$effect(() => {
-		if (!auth.token && page.url.pathname !== "/login") {
-			goto("/login");
+		if (!auth.token) {
+			goto("/");
 		}
 	});
 </script>
 
-{#if page.url.pathname !== "/login"}
+{#if page.url.pathname !== "/login" && page.url.pathname !== "/"}
 	<Sidebar.Provider open={false}>
 		<AppSidebar
 			menuItems={MenuItems}

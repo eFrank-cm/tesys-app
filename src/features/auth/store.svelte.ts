@@ -44,6 +44,7 @@ export const auth = $state<AuthState>({
                 localStorage.setItem(USER_VAR_NAME, JSON.stringify(loginResponse.user))
             }
             auth.token = loginResponse.accessToken.token
+            console.log(loginResponse.user)
             auth.user = loginResponse.user
         }
         catch (error) {

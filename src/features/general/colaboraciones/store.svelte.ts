@@ -6,6 +6,8 @@ import { getColaboracionesByUsuarioId } from "./services/getColaboraciones";
 
 interface ColaboracionSt {
     colaboraciones: Colaboracion[],
+    
+
     load: (usuarioId: string) => Promise<void>
     reset: () => void
     createInvitation: (role: string, usuarioId: string, proyectoId: string) => Promise<void>
@@ -14,8 +16,11 @@ interface ColaboracionSt {
 
 export const ColaboracionSt = $state<ColaboracionSt>({
     colaboraciones: [],
+
+    
     load: async (usuarioId) => {
         const data = await getColaboracionesByUsuarioId(usuarioId)
+        console.log(data)
         ColaboracionSt.colaboraciones = data
     },
     reset: () => {

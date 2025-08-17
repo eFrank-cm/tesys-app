@@ -7,7 +7,7 @@
     import type { Usuario } from "../../../auth/models";
     import LabelUsuario from "../../../LabelUsuario.svelte";
     import Badge from "$lib/components/ui/badge/badge.svelte";
-    import X from "@lucide/svelte/icons/x";
+    import XIcon from "@lucide/svelte/icons/x";
     import { onMount } from "svelte";
     import { auth } from "../../../auth/store.svelte";
     import { ColaboracionSt } from "../store.svelte";
@@ -121,7 +121,7 @@
                     size="icon"
                     onclick={() => (userSelected = null)}
                 >
-                    <X class="text-red-500" />
+                    <XIcon class="text-red-500" />
                 </Button>
             </div>
         {:else}

@@ -4,6 +4,13 @@
     import { onMount } from "svelte";
     import { ColaboracionSt } from "../store.svelte";
     import { auth } from "../../../auth/store.svelte";
+    import type { Colaboracion } from "../model";
+    import { ProyectoSt } from "../../proyectos/store.svelte";
+
+    function handleClick(colaboracion: Colaboracion) {
+        ProyectoSt.load(colaboracion.proyecto.id);
+        goto(`/proyecto/${colaboracion.proyecto.id}`);
+    }
 
     onMount(() => {
         if (auth.user?.id) ColaboracionSt.load(auth.user?.id);
@@ -23,7 +30,7 @@
     <Table.Body>
         {#each ColaboracionSt.colaboraciones as colaboracion, index (colaboracion.id)}
             <Table.Row
-                onclick={() => goto(`/proyecto/${colaboracion.proyecto.id}`)}
+                onclick={() => handleClick(colaboracion)}
                 class="hover:cursor-pointer"
             >
                 <Table.Cell>{index + 1}</Table.Cell>
