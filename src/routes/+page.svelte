@@ -5,6 +5,10 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import Input from "$lib/components/ui/input/input.svelte";
     import Search from "@lucide/svelte/icons/search";
+    import ChrevronDown from "@lucide/svelte/icons/chevron-down";
+    import UserBagde from "$lib/components/UserBagde.svelte";
+    import Pasos from "$lib/components/Pasos.svelte";
+    import CardNuevoProyecto from "../features/general/proyectos/componentes/CardNuevoProyecto.svelte";
 
     $effect(() => {
         if (auth.token) {
@@ -13,65 +17,53 @@
     });
 </script>
 
-<header class="px-80 py-2 flex justify-between bg-[#9b192d] text-secondary">
-    <img class="w-60" src="/logo-unsaac-white.png" alt="logo-unsaac" />
-    <div class="flex gap-4 items-start">
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal"
-        >
-            Reglamento
-        </Button>
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal"
-        >
-            Estadisticas
-        </Button>
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal"
-            onclick={() => goto("/login")}
-        >
-            Acceder
-        </Button>
-    </div>
-</header>
-
-<div class="px-80 text-secondary">
-    <div class="px-4 py-1 rounded-b-lg flex gap-4 bg-[#9b192d] opacity-75">
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal px-0"
-            onclick={() => goto("/")}
-        >
-            <House />
-            Repositorio Institucional
-        </Button>
-    </div>
-</div>
-
-<div class="px-80 py-5 grid grid-cols-3 gap-2">
+<div class="grid grid-cols-3 gap-2">
     <div class="col-span-2 px-5 flex flex-col gap-8">
-        <div class="flex flex-col gap-3">
-            <h2 class="text-2xl">
-                Bienvenidos al Repositorio Institucional de la Universidad
-                Nacional de San Antonio Abad del Cusco
-                <hr class="my-2" />
-            </h2>
-            <p>
-                Una plataforma digital para almacenar, preservar y difundir la
-                producción académica, científica, tecnológica y cultural de la
-                comunidad universitaria, asegurando interoperabilidad,
-                integridad de datos y protección de la propiedad intelectual, a
-                fin de facilitar la búsqueda, recuperación y reutilización de
-                recursos para el avance del conocimiento.
-            </p>
-        </div>
+        {#if auth.token}
+            <div class="flex flex-col gap-3">
+                <h2 class="text-2xl">
+                    Bienvenido Brayan Umiyauri Ilachoque
+                    <!-- Bienvenido {auth.user?.username} -->
+                    <hr class="my-2" />
+                </h2>
+                <p>
+                    Tienes a tu disposición una herramienta diseñada para
+                    acompañarte en el proceso de tu tesis, brindándote apoyo
+                    para organizar, dar seguimiento y gestionar cada etapa. Con
+                    ella podrás optimizar tu tiempo, mantener tus avances en
+                    orden y contar con un soporte confiable que te motive a dar
+                    cada paso.
+                </p>
+
+                <div>
+                    <span class="font-semibold"
+                        >Sigue los siguientes pasos:
+                    </span>
+                    <Pasos />
+                </div>
+
+                <div class="my-4 flex gap-4 items-center">
+                    <span class="font-semibold">Crea tu primer proyecto: </span>
+                    <CardNuevoProyecto />
+                </div>
+            </div>
+        {:else}
+            <div class="flex flex-col gap-3">
+                <h2 class="text-2xl">
+                    Bienvenidos al Repositorio Institucional de la Universidad
+                    Nacional de San Antonio Abad del Cusco
+                    <hr class="my-2" />
+                </h2>
+                <p>
+                    Una plataforma digital para almacenar, preservar y difundir
+                    la producción académica, científica, tecnológica y cultural
+                    de la comunidad universitaria, asegurando interoperabilidad,
+                    integridad de datos y protección de la propiedad
+                    intelectual, a fin de facilitar la búsqueda, recuperación y
+                    reutilización de recursos para el avance del conocimiento.
+                </p>
+            </div>
+        {/if}
 
         <div class="flex flex-col gap-3">
             <h2 class="text-2xl">

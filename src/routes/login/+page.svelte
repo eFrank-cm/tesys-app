@@ -10,7 +10,7 @@
 
     $effect(() => {
         if (auth.token) {
-            goto("/home");
+            goto("/");
         }
     });
 
@@ -21,60 +21,7 @@
     // });
 </script>
 
-<header class="px-80 py-2 flex justify-between bg-[#9b192d] text-secondary">
-    <img class="w-60" src="/logo-unsaac-white.png" alt="logo-unsaac" />
-    <div class="flex gap-4 items-start">
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal"
-        >
-            Reglamento
-        </Button>
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal"
-        >
-            Estadisticas
-        </Button>
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal"
-            onclick={() => goto("/login")}
-        >
-            Acceder
-        </Button>
-    </div>
-</header>
-
-<div class="px-80 text-secondary">
-    <div
-        class="px-4 py-1 rounded-b-lg flex items-center gap-1 bg-[#9b192d] opacity-75"
-    >
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal px-0"
-            onclick={() => goto("/")}
-        >
-            <House />
-            Repositorio Institucional
-        </Button>
-        <ChrevronRight size={15} />
-        <Button
-            variant="link"
-            size="compact"
-            class="text-secondary font-normal px-0"
-            onclick={() => goto("/login")}
-        >
-            Acceder
-        </Button>
-    </div>
-</div>
-
-<div class="px-80 py-5 grid grid-cols-3 gap-2">
+<div class="grid grid-cols-3 gap-2">
     <div class="col-span-2 px-5 flex flex-col gap-8">
         <div class="flex flex-col gap-3">
             <h2 class="text-2xl">

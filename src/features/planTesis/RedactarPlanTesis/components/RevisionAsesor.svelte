@@ -15,7 +15,7 @@
     import Label from "$lib/components/ui/label/label.svelte";
     import Input from "$lib/components/ui/input/input.svelte";
 
-    const coment = `Lorem ipsum dolor sit amet, consectetur adipisicingelit. Odio, similique! Ducimus nesciunt magnam quam essequas explicabo exercitationem atque? Quia doloremque exillumaccusantium distinctio.`;
+    const coment = `Es importante precisar con mayor detalle los límites y alcances de la ontología propuesta: ¿qué conceptos del proceso de gestión de tesis serán modelados y cuáles quedarán fuera? Esto permitirá evitar que el trabajo sea demasiado amplio o difuso, y garantizará que la implementación sea viable dentro del tiempo y recursos disponibles.`;
 </script>
 
 <div class="grid gap-4">
@@ -29,7 +29,7 @@
 
     <!-- PLANES -->
     <div class="grid gap-8">
-        <div class="flex items-start gap-2">
+        <!-- <div class="flex items-start gap-2">
             <UserBagde
                 username="Elizon Carcausto"
                 email="elizon.carcausto@unsaac.edu.pe"
@@ -88,11 +88,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="flex items-start gap-2">
             <UserBagde
-                username="Elizon Carcausto"
+                username="Brayan"
                 email="elizon.carcausto@unsaac.edu.pe"
                 variant="icon"
             />
@@ -105,7 +105,7 @@
                             Plan de Tesis
                         </Button>
                         <span class="text-xs opacity-50">
-                            Creado 25 Jun 2025 - 03:43 p.m.
+                            Creado 29 Ago 2025 - 04:43 p.m.
                         </span>
                     </div>
                 </div>
@@ -120,10 +120,10 @@
                                 variant="text"
                             />
                         </div>
-                        <div class="px-10">
+                        <div>
                             <Badge class="bg-green-600">
                                 <CircleCheck />
-                                Aprovado
+                                APROBADO, 30 Ago 2025 - 10:14 a.m.
                             </Badge>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
 
         <div class="flex items-start gap-2">
             <UserBagde
-                username="Elizon Carcausto"
+                username="Brayan"
                 email="elizon.carcausto@unsaac.edu.pe"
                 variant="icon"
             />
@@ -178,7 +178,7 @@
                             Plan de Tesis
                         </Button>
                         <span class="text-xs opacity-50">
-                            Creado 25 Jun 2025 - 03:43 p.m.
+                            Creado 27 Ago 2025 - 03:43 p.m.
                         </span>
                     </div>
                     <div class="px-2">
@@ -197,7 +197,7 @@
 
         <div class="flex items-start gap-2">
             <UserBagde
-                username="Elizon Carcausto"
+                username="Brayan"
                 email="elizon.carcausto@unsaac.edu.pe"
                 variant="icon"
             />
@@ -210,7 +210,7 @@
                             Plan de Tesis
                         </Button>
                         <span class="text-xs opacity-50">
-                            Creado 25 Jun 2025 - 03:43 p.m.
+                            Creado 27 Ago 2025 - 03:43 p.m.
                         </span>
                     </div>
                     <div class="px-2">
@@ -237,49 +237,7 @@
                         ></textarea>
                     </div>
                     <span class="text-xs opacity-50">
-                        Editado 25 Jun 2025 - 03:43 p.m.
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex items-start gap-2">
-            <UserBagde
-                username="Elizon Carcausto"
-                email="elizon.carcausto@unsaac.edu.pe"
-                variant="icon"
-            />
-
-            <div class="border rounded-lg w-full">
-                <div class="flex justify-between items-center bg-accent">
-                    <div class="flex items-center">
-                        <Button variant="link">
-                            <FileText />
-                            Plan de Tesis
-                        </Button>
-                        <span class="text-xs opacity-50">
-                            Creado 25 Jun 2025 - 03:43 p.m.
-                        </span>
-                    </div>
-                </div>
-
-                <div class="border-t px-4 py-2">
-                    <div>
-                        <Badge>Asesor</Badge>
-                        <UserBagde
-                            username="Lauro Enciso Rodas"
-                            email="lauro.enciso@unsaac.edu.pe"
-                            variant="text"
-                        />
-                    </div>
-                    <div>
-                        <textarea
-                            class="w-full text-sm text-balance"
-                            value={coment}
-                        ></textarea>
-                    </div>
-                    <span class="text-xs opacity-50">
-                        Editado 25 Jun 2025 - 03:43 p.m.
+                        Creado 28 Ago 2025 - 10:14 a.m.
                     </span>
                 </div>
             </div>

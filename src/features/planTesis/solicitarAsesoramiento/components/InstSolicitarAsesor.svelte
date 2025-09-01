@@ -7,14 +7,14 @@
 
 <ul class="ml-10 list-disc text-balance">
     <li>
+        <strong>Docente</strong> que será invitado a asesorar la tesis.
+    </li>
+    <li>
         <strong>Título</strong> tentativo de la tesis.
     </li>
     <li>
         <strong>Descripción</strong> breve del tema, destacando el enfoque principal,
         los objetivos generales y la relevancia académica.
-    </li>
-    <li>
-        <strong>Docente</strong> que será invitado a asesorar la tesis.
     </li>
 </ul>
 

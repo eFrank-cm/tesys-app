@@ -14,6 +14,7 @@
     import ActividadesRevisor from "./ActividadesRevisor.svelte";
     import Button from "$lib/components/ui/button/button.svelte";
     import { goto } from "$app/navigation";
+    import Badge from "$lib/components/ui/badge/badge.svelte";
 
     let rol = $derived(
         ProyectoSt.current?.colaboraciones.find(
@@ -22,11 +23,20 @@
     );
 </script>
 
-<div class="flex gap-2">
-    <Button onclick={() => goto("/proyectos")} size='compact' variant='secondary'>
-        <ArrowBigLeft />
-    </Button>
-    <h1 class="text-xl font-semibold">{ProyectoSt.current?.titulo}</h1>
+<div class="flex gap-2 justify-between items-center">
+    <div class="flex items-center gap-4">
+        <Button
+            onclick={() => goto("/proyectos")}
+            size="compact"
+            variant="secondary"
+        >
+            <ArrowBigLeft />
+        </Button>
+        <h1 class="text-xl font-semibold">{ProyectoSt.current?.titulo}</h1>
+    </div>
+    <div>
+        <Badge class="bg-[#e8a134]">{rol}</Badge>
+    </div>
 </div>
 <div class="my-4"></div>
 <div class="flex w-full">
@@ -57,6 +67,7 @@
                 Ajustes
             </Tabs.Trigger>
         </Tabs.List>
+
         <hr class="mb-2" />
         <Tabs.Content value="actividades">
             {#if rol === "PROPIETARIO" || rol === "AUTOR"}
@@ -71,6 +82,16 @@
         <Tabs.Content value="documentos">documentos</Tabs.Content>
         <Tabs.Content value="colaboradores">colaboradores</Tabs.Content>
         <Tabs.Content value="asuntos">asuntos</Tabs.Content>
-        <Tabs.Content value="ajustes">ajustes</Tabs.Content>
+        <Tabs.Content value="ajustes">
+            <Button
+                variant="destructive"
+                onclick={() => {
+                    const id = ProyectoSt.current?.id;
+                    if (!id) return;
+                    ProyectoSt.delete(id);
+                    goto("/proyectos");
+                }}>Eliminar Proyecto</Button
+            >
+        </Tabs.Content>
     </Tabs.Root>
 </div>

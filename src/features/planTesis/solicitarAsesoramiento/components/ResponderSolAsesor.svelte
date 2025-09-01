@@ -4,8 +4,12 @@
     import Label from "$lib/components/ui/label/label.svelte";
     import UserBagde from "$lib/components/UserBagde.svelte";
     import FilePlus_2 from "@lucide/svelte/icons/file-plus-2";
+    import MailX from "@lucide/svelte/icons/mail-x";
     import ComboPersonas from "../../../../lib/components/comboPersonas.svelte";
     import FileText from "@lucide/svelte/icons/file-text";
+
+    const coment =
+        "En la Universidad Nacional de San Antonio Abad del Cusco, la gestión de tesis en la Facultad de Ingeniería Eléctrica, Electrónica, Informática y Mecánica (FIEEIM) se desarrolla de manera manual, lo que ocasiona ineficiencias, errores y falta de claridad en los lineamientos respecto a la normativa universitaria. Para dar solución a esta problemática, se plantea el desarrollo de una ontología basada en PROV-O, orientada a organizar y estructurar la información del proceso de tesis, facilitar la representación e intercambio de datos académicos y sentar las bases para la implementación de software que fortalezca la comunicación entre estudiantes, asesores y comités evaluadores. La validación mediante un Producto Mínimo Viable (MVP) en la Escuela Profesional de Ingeniería Informática y de Sistemas permitirá evidenciar su utilidad en la optimización de la gestión de tesis.";
 </script>
 
 <div class="w-full p-5 border rounded-lg shadow-sm grid gap-5">
@@ -16,30 +20,26 @@
             <span class="opacity-60">De:</span>
             <UserBagde
                 variant="text"
-                username="Elizon Frank Carcausto Mamani"
-                email="elizon.carcausto@unsaac.edu.pe"
+                username="Brayan Umiyauri Ilachoque"
+                email="120898@unsaac.edu.pe"
             />
         </div>
 
-        <div class="flex items-start gap-2 pb-1 font-semibold">
-            Implementación de un sistema web para la gestión y control de
-            inventarios en una farmacia comunitaria
+        <div class="flex items-start gap-2 font-semibold">
+            Desarrollo de una ontología para mejorar la gestión de tesis en la
+            Facultad de Ingeniería Eléctrica, Electrónica, Informática y
+            Mecánica de la UNSAAC
         </div>
+        <hr />
 
         <textarea
             class="w-full h-60 outline-0"
             placeholder="Realice una breve descripcion del proyecto que se desea realizar..."
-            >Este proyecto propone el desarrollo e implementación de un sistema
-            web que permita optimizar la gestión y control de inventarios en una
-            farmacia comunitaria, facilitando el registro, seguimiento y
-            actualización de productos en tiempo real. El sistema busca reducir
-            errores en el manejo de stock, mejorar la toma de decisiones y
-            garantizar la disponibilidad oportuna de medicamentos para los
-            clientes.
+            >{coment}
         </textarea>
 
         <div class="flex items-center justify-center gap-4">
-            <Button>Aceptar</Button>
+            <Button class="bg-green-600">Aceptar</Button>
             <Button variant="destructive">Denegar</Button>
         </div>
     </div>

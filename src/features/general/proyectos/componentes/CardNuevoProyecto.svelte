@@ -29,12 +29,14 @@
         <AlertDialog.Header>
             <AlertDialog.Title>Nuevo Proyecto</AlertDialog.Title>
             <AlertDialog.Description>
-                Registro de nuevo proyecto de investigación.
+                Registrar nuevo proyecyo de <span
+                    class="font-semibold">tesis de pregrado</span
+                >.
             </AlertDialog.Description>
         </AlertDialog.Header>
         <div>
             <div class="grid gap-2">
-                <Label>Titulo</Label>
+                <Label>Nombre del Proyecto</Label>
                 <Input bind:value={titulo} />
             </div>
         </div>

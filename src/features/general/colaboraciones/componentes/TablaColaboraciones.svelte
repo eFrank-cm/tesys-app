@@ -18,13 +18,13 @@
 </script>
 
 <Table.Root>
-    <Table.Caption>A list of your recent invoices.</Table.Caption>
+    <Table.Caption></Table.Caption>
     <Table.Header>
         <Table.Row>
             <Table.Head class="w-[100px]">Nro</Table.Head>
             <Table.Head>Titulo</Table.Head>
+            <Table.Head>Tipo</Table.Head>
             <Table.Head>Rol</Table.Head>
-            <Table.Head></Table.Head>
         </Table.Row>
     </Table.Header>
     <Table.Body>
@@ -35,8 +35,8 @@
             >
                 <Table.Cell>{index + 1}</Table.Cell>
                 <Table.Cell>{colaboracion.proyecto.titulo}</Table.Cell>
+                <Table.Cell>Tesis de pregrado</Table.Cell>
                 <Table.Cell>{colaboracion.role}</Table.Cell>
-                <Table.Cell></Table.Cell>
             </Table.Row>
         {/each}
     </Table.Body>

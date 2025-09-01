@@ -14,7 +14,7 @@
     import Label from "$lib/components/ui/label/label.svelte";
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
 
-    const coment = `Lorem ipsum dolor sit amet, consectetur adipisicingelit. Odio, similique! Ducimus nesciunt magnam quam essequas explicabo exercitationem atque? Quia doloremque exillumaccusantium distinctio.`;
+    const coment = `Es importante precisar con mayor detalle los límites y alcances de la ontología propuesta: ¿qué conceptos del proceso de gestión de tesis serán modelados y cuáles quedarán fuera? Esto permitirá evitar que el trabajo sea demasiado amplio o difuso, y garantizará que la implementación sea viable dentro del tiempo y recursos disponibles`;
 </script>
 
 <div class="grid gap-4">
@@ -59,7 +59,7 @@
                             Plan de Tesis
                         </Button>
                         <span class="text-xs opacity-50">
-                            Creado 25 Jun 2025 - 03:43 p.m.
+                            Creado 29 Ago 2025 - 04:43 p.m.
                         </span>
                     </div>
                 </div>
@@ -74,10 +74,10 @@
                                 variant="text"
                             />
                         </div>
-                        <div class="px-10">
+                        <div>
                             <Badge class="bg-green-600">
                                 <CircleCheck />
-                                Aprovado
+                                APROBADO, 30 Ago 2025 - 10:14 a.m.
                             </Badge>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                                 Plan de Tesis Firmado
                             </Button>
                             <span class="text-xs opacity-50">
-                                Creado 25 Jun 2025 - 03:43 p.m.
+                                Creado 31 Ago 2025 - 05:43 p.m.
                             </span>
                         </div>
                         <div class="flex items-center">
@@ -97,14 +97,15 @@
                                 Informe Turniting
                             </Button>
                             <span class="text-xs opacity-50">
-                                Creado 25 Jun 2025 - 03:43 p.m.
+                                Creado 31 Ago 2025 - 08:14 p.m.
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="flex items-start gap-2">
+
+        <!-- <div class="flex items-start gap-2">
             <UserBagde
                 username="Elizon Carcausto"
                 email="elizon.carcausto@unsaac.edu.pe"
@@ -161,11 +162,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="flex items-start gap-2">
             <UserBagde
-                username="Elizon Carcausto"
+                username="Brayan"
                 email="elizon.carcausto@unsaac.edu.pe"
                 variant="icon"
             />
@@ -178,20 +179,20 @@
                             Plan de Tesis
                         </Button>
                         <span class="text-xs opacity-50">
-                            Creado 25 Jun 2025 - 03:43 p.m.
+                            Creado 27 Ago 2025 - 03:43 p.m.
                         </span>
                     </div>
                     <div class="px-2">
                         <Button variant="link">
                             <Trash />
-                            Elimar
+                            Eliminar
                         </Button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="flex items-start gap-2">
+        <!-- <div class="flex items-start gap-2">
             <UserBagde
                 username="Elizon Carcausto"
                 email="elizon.carcausto@unsaac.edu.pe"
@@ -231,11 +232,11 @@
                     </span>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="flex items-start gap-2">
             <UserBagde
-                username="Elizon Carcausto"
+                username="Brayan"
                 email="elizon.carcausto@unsaac.edu.pe"
                 variant="icon"
             />
@@ -248,7 +249,7 @@
                             Plan de Tesis
                         </Button>
                         <span class="text-xs opacity-50">
-                            Creado 25 Jun 2025 - 03:43 p.m.
+                            Creado 27 Ago 2025 - 03:43 p.m.
                         </span>
                     </div>
                 </div>
@@ -269,7 +270,7 @@
                         ></textarea>
                     </div>
                     <span class="text-xs opacity-50">
-                        Editado 25 Jun 2025 - 03:43 p.m.
+                        Creado 28 Ago 2025 - 10:14 a.m.
                     </span>
                 </div>
             </div>

@@ -76,7 +76,7 @@
                                 d="M5 13l4 4L19 7"
                             />
                         </svg>
-                        Levantar observaciones de revisores
+                        Levantar observaciones de Revisores
                     </li>
                     <li class="flex items-center text-gray-600 text-sm">
                         <svg
@@ -104,57 +104,7 @@
                 2
             </div>
             <div class="ml-8">
-                <h2 class="text-lg font-semibold">Investigación</h2>
-                <ul>
-                    <li class="flex items-center text-gray-600 text-sm">
-                        <svg
-                            class="w-4 h-4 mr-2 text-black"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
-                        Definir el tema y los objetivos de la tesis.
-                    </li>
-                    <li class="flex items-center text-gray-600 text-sm">
-                        <svg
-                            class="w-4 h-4 mr-2 text-black"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
-                        Establecer la metodología a utilizar.
-                    </li>
-                    <li class="flex items-center text-gray-600 text-sm">
-                        <svg
-                            class="w-4 h-4 mr-2 text-black"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
-                        Elaborar un cronograma de actividades.
-                    </li>
-                </ul>
+                <h2 class="text-lg font-semibold">Apto al Titulo</h2>
             </div>
         </div>
         <div class="flex items-center mb-10">
@@ -164,57 +114,9 @@
                 3
             </div>
             <div class="ml-8">
-                <h2 class="text-lg font-semibold">Propuesta de solución</h2>
-                <ul>
-                    <li class="flex items-center text-gray-600 text-sm">
-                        <svg
-                            class="w-4 h-4 mr-2 text-black"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
-                        Definir el tema y los objetivos de la tesis.
-                    </li>
-                    <li class="flex items-center text-gray-600 text-sm">
-                        <svg
-                            class="w-4 h-4 mr-2 text-black"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
-                        Establecer la metodología a utilizar.
-                    </li>
-                    <li class="flex items-center text-gray-600 text-sm">
-                        <svg
-                            class="w-4 h-4 mr-2 text-black"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
-                        Elaborar un cronograma de actividades.
-                    </li>
-                </ul>
+                <h2 class="text-lg font-semibold">
+                    Redaccion y Dictamen de Tesis
+                </h2>
             </div>
         </div>
         <div class="flex items-center mb-10">
@@ -224,57 +126,7 @@
                 4
             </div>
             <div class="ml-8">
-                <h2 class="text-lg font-semibold">Implementación</h2>
-                <ul>
-                    <li class="flex items-center text-gray-600 text-sm">
-                        <svg
-                            class="w-4 h-4 mr-2 text-black"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
-                        Definir el tema y los objetivos de la tesis.
-                    </li>
-                    <li class="flex items-center text-gray-600 text-sm">
-                        <svg
-                            class="w-4 h-4 mr-2 text-black"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
-                        Establecer la metodología a utilizar.
-                    </li>
-                    <li class="flex items-center text-gray-600 text-sm">
-                        <svg
-                            class="w-4 h-4 mr-2 text-black"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
-                        Elaborar un cronograma de actividades.
-                    </li>
-                </ul>
+                <h2 class="text-lg font-semibold">Sustentacion</h2>
             </div>
         </div>
     </div>

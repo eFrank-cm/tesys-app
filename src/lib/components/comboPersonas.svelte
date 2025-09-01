@@ -10,6 +10,10 @@
 
     const people = [
         {
+            value: "23853228",
+            label: { username: "Lauro Enciso Rodas", email: "lauro.enciso@example.com" },
+        },
+        {
             value: "71788811",
             label: { username: "Ana Torres Ríos", email: "ana.tr@example.com" },
         },
@@ -191,7 +195,7 @@
         <Command.Root>
             <Command.Input placeholder="Buscar por nobre o DNI" />
             <Command.List>
-                <Command.Empty>No framework found.</Command.Empty>
+                <Command.Empty>Sin resultados.</Command.Empty>
                 <Command.Group value="frameworks">
                     {#each people as person (person.value)}
                         <Command.Item

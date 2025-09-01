@@ -12,6 +12,8 @@
     import RevisionRevisores from "../../../planTesis/LevantarObsRevisores/components/RevisionRevisores.svelte";
     import ResolucionAprob from "../../../planTesis/AprobacionPlanTesis/components/ResolucionAprob.svelte";
     import RedactarPlanTesis from "../../../planTesis/RedactarPlanTesis/components/RedactarPlanTesis.svelte";
+    import InstAprovPlanTesis from "../../../planTesis/AprobacionPlanTesis/components/InstAprovPlanTesis.svelte";
+    import RevisionAutor from "../../../planTesis/LevantarObsRevisores/components/RevisionAutor.svelte";
 
     interface Activity {
         value: string;
@@ -43,12 +45,12 @@
             value: "levantar-observaciones",
             title: "4. Levantar observacion de revisores",
             instructions: InstLevandarObs,
-            playground: RevisionRevisores,
+            playground: RevisionAutor,
         },
         {
             value: "aprobacion",
             title: "5. Aprobacion de Plan de Tesis",
-            instructions: InstLevandarObs,
+            instructions: InstAprovPlanTesis,
             playground: ResolucionAprob,
         },
     ];

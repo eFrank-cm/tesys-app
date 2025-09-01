@@ -3,7 +3,7 @@
 </script>
 
 <p class="text-balance">
-    Para continuar, debes realizar el pago de <strong>S/. 200.00</strong>
+    Para continuar, debes realizar el pago de <strong>S/. 30.00</strong>
     en la <strong>Caja Central de la Universidad</strong>, indicando que es por
     el trámite:
 </p>
@@ -19,7 +19,7 @@
 </p>
 <ul class="ml-10 list-decimal text-balance">
     <li>
-        <strong>Boucher de pago</strong> (comprobante legible).
+        <strong>Boucher de pago</strong> (comprobante legible)
     </li>
     <li>
         <strong>Copia de DNI</strong> (ambos lados en un solo archivo)

@@ -56,7 +56,7 @@
                         required
                     />
                 </div>
-                <Button type="submit" class="w-full">
+                <Button type="submit" class="w-full bg-[#9b192d]">
                     {auth.loading ? "Ingresando..." : "Ingresar Sesion"}
                 </Button>
                 <LoginGoogle />
