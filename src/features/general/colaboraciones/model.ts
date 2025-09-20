@@ -1,13 +1,19 @@
-import { deserializerUsuario, type Usuario } from "../../auth/models"
-import { deserializerProyecto, getEmptyProyecto, type Proyecto } from "../proyectos/model"
+import { deserializerUsuario, getEmptyUsuario, type Usuario } from "../../auth/models"
+import { deserializerPropuesta, type Propuesta } from "../../planTesis/solicitarAsesoramiento/models"
+import { deserializerProyecto, type Proyecto } from "../proyectos/model"
 
 export interface Colaboracion {
     id: string
     role: string
     estado: string
     proyectoId: string
-    proyecto: Proyecto
+    createdAtISO: string
+    updatedAtISO: string
+    creatorId: string
     usuario?: Usuario
+    proyecto?: Proyecto
+    propuesta?: Propuesta
+    creator?: Usuario
 }
 
 export function getEmptyColaboracion(): Colaboracion {
@@ -16,7 +22,9 @@ export function getEmptyColaboracion(): Colaboracion {
         role: '',
         estado: '',
         proyectoId: '',
-        proyecto: getEmptyProyecto(),
+        createdAtISO: '',
+        updatedAtISO: '',
+        creatorId: '',
     }
 }
 
@@ -28,7 +36,12 @@ export function deserializerColaboracion(data: any): Colaboracion {
         role: data?.role ?? empty.role,
         estado: data?.estado ?? empty.estado,
         proyectoId: data?.proyectoId ?? empty.proyectoId,
-        proyecto: data?.proyecto ? deserializerProyecto(data.proyecto) : empty.proyecto,
-        usuario: data?.usuario ? deserializerUsuario(data.usuario) : undefined
+        createdAtISO: data?.createdAt ?? empty.createdAtISO,
+        updatedAtISO: data?.updatedAt ?? empty.updatedAtISO,
+        creatorId: data?.creatorId ?? empty.creatorId,
+        usuario: deserializerUsuario(data.usuario),
+        proyecto: deserializerProyecto(data.proyecto),
+        propuesta: deserializerPropuesta(data.propuesta),
+        creator: deserializerUsuario(data.creator)
     }
 }

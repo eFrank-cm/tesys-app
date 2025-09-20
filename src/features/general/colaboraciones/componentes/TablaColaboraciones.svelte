@@ -7,7 +7,8 @@
     import type { Colaboracion } from "../model";
     import { ProyectoSt } from "../../proyectos/store.svelte";
 
-    function handleClick(colaboracion: Colaboracion) {
+    function selectColaboracion(colaboracion: Colaboracion) {
+        if (!colaboracion.proyecto) return;
         ProyectoSt.load(colaboracion.proyecto.id);
         goto(`/proyecto/${colaboracion.proyecto.id}`);
     }
@@ -29,15 +30,17 @@
     </Table.Header>
     <Table.Body>
         {#each ColaboracionSt.colaboraciones as colaboracion, index (colaboracion.id)}
-            <Table.Row
-                onclick={() => handleClick(colaboracion)}
-                class="hover:cursor-pointer"
-            >
-                <Table.Cell>{index + 1}</Table.Cell>
-                <Table.Cell>{colaboracion.proyecto.titulo}</Table.Cell>
-                <Table.Cell>Tesis de pregrado</Table.Cell>
-                <Table.Cell>{colaboracion.role}</Table.Cell>
-            </Table.Row>
+            {#if colaboracion.proyecto}
+                <Table.Row
+                    onclick={() => selectColaboracion(colaboracion)}
+                    class="hover:cursor-pointer"
+                >
+                    <Table.Cell>{index + 1}</Table.Cell>
+                    <Table.Cell>{colaboracion.proyecto.titulo}</Table.Cell>
+                    <Table.Cell>Tesis de pregrado</Table.Cell>
+                    <Table.Cell>{colaboracion.role}</Table.Cell>
+                </Table.Row>
+            {/if}
         {/each}
     </Table.Body>
 </Table.Root>

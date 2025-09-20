@@ -15,6 +15,14 @@
     import Button from "$lib/components/ui/button/button.svelte";
     import { goto } from "$app/navigation";
     import Badge from "$lib/components/ui/badge/badge.svelte";
+    import { onMount } from "svelte";
+    import { page } from "$app/stores";
+
+    onMount(() => {
+        if (ProyectoSt.current) return;
+        const id = $page.params.id;
+        if (id) ProyectoSt.load(id);
+    });
 
     let rol = $derived(
         ProyectoSt.current?.colaboraciones.find(

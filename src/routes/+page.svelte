@@ -22,8 +22,8 @@
         {#if auth.token}
             <div class="flex flex-col gap-3">
                 <h2 class="text-2xl">
-                    Bienvenido Brayan Umiyauri Ilachoque
-                    <!-- Bienvenido {auth.user?.username} -->
+                    <!-- Bienvenido Brayan Umiyauri Ilachkoque -->
+                    Bienvenido {auth.user?.username}
                     <hr class="my-2" />
                 </h2>
                 <p>

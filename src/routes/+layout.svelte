@@ -9,7 +9,6 @@
 	import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";
 	import { Toaster } from "$lib/components/ui/sonner/index.js";
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
-	import { page } from "$app/state";
 	import AppSidebar, {
 		type MenuItem,
 	} from "$lib/components/AppSidebar.svelte";
@@ -63,7 +62,7 @@
 							class="text-secondary font-normal"
 							{...props}
 						>
-							Robert
+							{auth.user?.username}
 							<ChrevronDown />
 						</Button>
 					{/snippet}
@@ -71,10 +70,12 @@
 				<DropdownMenu.Content class="w-40" align="start">
 					<DropdownMenu.Label>Mi Cuenta</DropdownMenu.Label>
 					<DropdownMenu.Group>
-						<DropdownMenu.Item>Perfil</DropdownMenu.Item>
-						<DropdownMenu.Item onclick={() => goto("/proyectos")}
-							>Proyectos</DropdownMenu.Item
-						>
+						<DropdownMenu.Item onclick={() => goto("/perfil")}>
+							Perfil
+						</DropdownMenu.Item>
+						<DropdownMenu.Item onclick={() => goto("/proyectos")}>
+							Proyectos
+						</DropdownMenu.Item>
 					</DropdownMenu.Group>
 					<DropdownMenu.Separator />
 					<DropdownMenu.Item onclick={auth.logout}>

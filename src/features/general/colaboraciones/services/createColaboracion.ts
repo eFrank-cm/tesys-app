@@ -1,28 +1,30 @@
+import { decamelize } from "$lib";
 import { API_URL } from "../../../../api/config";
 import { deserializerColaboracion } from "../model";
 
-interface ColaboracionCreate {
-    role: string,
-    usuario_id: string,
-    proyecto_id: string,
+export interface SolicitudAsesoramiento {
+    usuarioId: string,
+    proyectoId: string,
+    titulo: string,
+    resumen: string,
+    creatorId: string
 }
 
-export async function createColaboracionLikeInvitacion(body: ColaboracionCreate) {
-    const url = `${API_URL}/general/colaboraciones/create`
-    console.log(url)
-    console.log(body)
+export async function createColaboracionSolicitarAsesor(body: SolicitudAsesoramiento) {
+    const url = `${API_URL}/general/colaboraciones/solicitar-asesor`
 
     try {
         const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
+            body: JSON.stringify(decamelize(body)),
         })
 
         if (!response.ok) return null
 
         const dataResponse = await response.json();
-        const data = deserializerColaboracion(dataResponse)
+        console.log(dataResponse, 'data de servidor')
+        const data = deserializerColaboracion(dataResponse.data)
         return data
     } catch (error) {
         throw error;

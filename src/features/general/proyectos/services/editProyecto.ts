@@ -8,7 +8,7 @@ export interface ProyectoUpdate {
 }
 
 export async function editProyectoById(proyectoId: string, body: ProyectoUpdate) {
-    const url = `${API_URL}/general/proyectos/patch/${proyectoId}`
+    const url = `${API_URL}/general/proyectos/${proyectoId}`
 
     try {
         const response = await fetch(url, {

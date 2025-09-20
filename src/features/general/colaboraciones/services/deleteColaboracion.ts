@@ -1,7 +1,7 @@
 import { API_URL } from "../../../../api/config";
 
-export async function deleteInvitationToColaboration(colaboracionId: string) {
-    const url = `${API_URL}/general/colaboraciones/delete/${colaboracionId}`
+export async function eliminarColaboracion(colaboracionId: string) {
+    const url = `${API_URL}/general/colaboraciones/${colaboracionId}`
 
     try {
         const response = await fetch(url, {

@@ -3,7 +3,7 @@ import { API_URL } from "../../../../api/config";
 import { deserializerProyecto } from "../model";
 
 export async function getProyectoById(proyectoId: string) {
-    const url = `${API_URL}/general/proyectos/find/${proyectoId}`;
+    const url = `${API_URL}/general/proyectos/${proyectoId}`;
 
     try {
         const res = await fetch(url);

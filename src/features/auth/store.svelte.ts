@@ -1,7 +1,7 @@
 import { ColaboracionSt } from "../general/colaboraciones/store.svelte"
 import { ProyectoSt } from "../general/proyectos/store.svelte"
 import { type Usuario } from "./models";
-import { getUsuarios } from "./services/getUsuarios";
+import { getUsuarios, getUsuariosAptosAsesor } from "./services/getUsuarios";
 import { verifyCredentials, verifyGoogleCredentials } from "./services/verifyCredentials";
 
 const TOKEN_VAR_NAME = "token"
@@ -15,7 +15,7 @@ interface AuthState {
 
     login: (username?: string, password?: string, token?: string) => Promise<void>
     logout: () => void
-    getUsers: () => Promise<Usuario[]>
+    getUsers: (onlyAptosAsesor?: boolean) => Promise<Usuario[]>
 }
 
 export const auth = $state<AuthState>({
@@ -67,8 +67,15 @@ export const auth = $state<AuthState>({
         ColaboracionSt.reset()
     },
 
-    async getUsers() {
-        const data = await getUsuarios()
+    async getUsers(onlyAptosAsesor: boolean = false) {
+        let data
+        if (onlyAptosAsesor) {
+            data = await getUsuariosAptosAsesor()
+        }
+        else {
+            data = await getUsuarios()
+        }
+
         return data
     },
 });

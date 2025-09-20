@@ -4,9 +4,9 @@
     import Button from "$lib/components/ui/button/button.svelte";
     import type { Component } from "svelte";
     import RevisionAsesor from "../../../planTesis/RedactarPlanTesis/components/RevisionAsesor.svelte";
-    import ResponderSolAsesor from "../../../planTesis/solicitarAsesoramiento/components/ResponderSolAsesor.svelte";
     import InstResponderSolAsesor from "../../../planTesis/solicitarAsesoramiento/components/InstResponderSolAsesor.svelte";
     import InstRevisarAsesor from "../../../planTesis/RedactarPlanTesis/components/InstRevisarAsesor.svelte";
+    import ResponderPropuesta from "../../../planTesis/solicitarAsesoramiento/components/ResponderPropuesta.svelte";
 
     interface Activity {
         value: string;
@@ -20,7 +20,7 @@
             value: "responder-solicitud-asesoramiento",
             title: "1. Responder solicitud de asesoramiento",
             instructions: InstResponderSolAsesor,
-            playground: ResponderSolAsesor,
+            playground: ResponderPropuesta,
         },
         {
             value: "revisar-plan-tesis",

@@ -17,9 +17,9 @@ export function getEmptyUsuario(): Usuario {
 export function deserializerUsuario(data: any): Usuario {
     const empty = getEmptyUsuario()
     return {
-        id: data.id || empty.id,
-        username: data.username || empty.username,
-        email: data.email || empty.email,
-        picture: data.picture || empty.picture,
+        id: data?.id ?? empty.id,
+        username: data?.username ?? empty.username,
+        email: data?.email ?? empty.email,
+        picture: data?.picture ?? empty.picture,
     }
 }
