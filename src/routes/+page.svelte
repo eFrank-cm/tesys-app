@@ -1,29 +1,18 @@
 <script>
-    import { goto } from "$app/navigation";
-    import House from "@lucide/svelte/icons/house";
-    import { auth } from "../features/auth/store.svelte";
     import { Button } from "$lib/components/ui/button/index.js";
     import Input from "$lib/components/ui/input/input.svelte";
     import Search from "@lucide/svelte/icons/search";
-    import ChrevronDown from "@lucide/svelte/icons/chevron-down";
-    import UserBagde from "$lib/components/UserBagde.svelte";
-    import Pasos from "$lib/components/Pasos.svelte";
-    import CardNuevoProyecto from "../features/general/proyectos/componentes/CardNuevoProyecto.svelte";
-
-    $effect(() => {
-        if (auth.token) {
-            goto("/");
-        }
-    });
+    import Pasos from "../workflow/Pasos.svelte";
+    import { authStore } from "$lib/auth/store.svelte";
+    import { goto } from "$app/navigation";
 </script>
 
 <div class="grid grid-cols-3 gap-2">
     <div class="col-span-2 px-5 flex flex-col gap-8">
-        {#if auth.token}
+        {#if authStore.token}
             <div class="flex flex-col gap-3">
                 <h2 class="text-2xl">
-                    <!-- Bienvenido Brayan Umiyauri Ilachkoque -->
-                    Bienvenido {auth.user?.username}
+                    Bienvenido {authStore.user?.username}
                     <hr class="my-2" />
                 </h2>
                 <p>
@@ -44,7 +33,9 @@
 
                 <div class="my-4 flex gap-4 items-center">
                     <span class="font-semibold">Crea tu primer proyecto: </span>
-                    <CardNuevoProyecto />
+                    <Button onclick={() => goto("/proyecto/nuevo")}
+                        >Nuevo Proyecto</Button
+                    >
                 </div>
             </div>
         {:else}

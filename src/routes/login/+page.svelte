@@ -1,24 +1,15 @@
 <script>
-    import LoginForm from "../../features/auth/componentes/LoginForm.svelte";
     import { goto } from "$app/navigation";
-    import { auth } from "../../features/auth/store.svelte";
-    import House from "@lucide/svelte/icons/house";
-    import { Button } from "$lib/components/ui/button/index.js";
     import Input from "$lib/components/ui/input/input.svelte";
     import Search from "@lucide/svelte/icons/search";
-    import ChrevronRight from "@lucide/svelte/icons/chevron-right";
+    import { authStore } from "$lib/auth/store.svelte";
+    import LoginForm from "$lib/auth/componentes/LoginForm.svelte";
 
     $effect(() => {
-        if (auth.token) {
+        if (authStore.token) {
             goto("/");
         }
     });
-
-    // $effect(() => {
-    //     if (auth.token) {
-    //         goto("/");
-    //     }
-    // });
 </script>
 
 <div class="grid grid-cols-3 gap-2">
