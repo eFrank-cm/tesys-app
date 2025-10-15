@@ -1,3 +1,6 @@
+import { deserializerRevision, type Revision } from "../../planTesis/revision/model"
+import { deserializeUsuario, type UsuarioMinimal } from "../usuario/model"
+
 export interface Documento {
     id: string
     nombre: string
@@ -6,6 +9,9 @@ export interface Documento {
     docUrl: string
     createdAt: string
     updatedAt: string
+    createdById: string
+    createdBy?: UsuarioMinimal
+    revision?: Revision
 }
 
 export function getEmptyDocumento(): Documento {
@@ -16,7 +22,8 @@ export function getEmptyDocumento(): Documento {
         tipo: '',
         docUrl: '',
         createdAt: '',
-        updatedAt: ''
+        updatedAt: '',
+        createdById: ''
     }
 }
 
@@ -29,6 +36,9 @@ export function deserializerDocumento(data: any): Documento {
         tipo: data?.tipo ?? empty.tipo,
         docUrl: data?.docUrl ?? empty.docUrl,
         createdAt: data?.createdAt ?? empty.createdAt,
-        updatedAt: data?.updatedAt ?? empty.updatedAt
+        updatedAt: data?.updatedAt ?? empty.updatedAt,
+        createdById: data?.createdById ?? empty.createdById,
+        createdBy: data?.createdBy ? deserializeUsuario(data.createdBy) : undefined,
+        revision: data?.revision ? deserializerRevision(data.revision) : undefined
     }
 }

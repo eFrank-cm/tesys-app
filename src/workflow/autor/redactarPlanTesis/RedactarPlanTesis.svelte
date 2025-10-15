@@ -12,8 +12,44 @@
     import Badge from "$lib/components/ui/badge/badge.svelte";
     import Input from "$lib/components/ui/input/input.svelte";
     import Label from "$lib/components/ui/label/label.svelte";
+    import { DocumentoStore } from "../../../features/general/documento/store.svelte";
+    import type { Documento } from "../../../features/general/documento/model";
+    import { authStore } from "$lib/auth/store.svelte";
+    import { page } from "$app/state";
+    import { onMount } from "svelte";
+    import { formatDateToISO } from "$lib";
+    import { goto } from "$app/navigation";
 
-    const coment = `Es importante precisar con mayor detalle los límites y alcances de la ontología propuesta: ¿qué conceptos del proceso de gestión de tesis serán modelados y cuáles quedarán fuera? Esto permitirá evitar que el trabajo sea demasiado amplio o difuso, y garantizará que la implementación sea viable dentro del tiempo y recursos disponibles`;
+    const proyectoId = page.params.id;
+    let planes = $state<Documento[]>([]);
+    let fileLoad = $state<File | null>(null);
+
+    function getPlanesDeTesis() {
+        DocumentoStore.getDocumentosRevision(proyectoId, "PLAN DE TESIS").then(
+            (data) => {
+                planes = data;
+                console.log(data);
+            },
+        );
+    }
+
+    onMount(() => getPlanesDeTesis());
+
+    function handleChange(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (input.files && input.files[0] && authStore.user) {
+            fileLoad = input.files[0];
+            DocumentoStore.create(
+                {
+                    tipo: "PLAN DE TESIS",
+                    docUrl: "",
+                    usuarioId: authStore.user.id,
+                    proyectoId: proyectoId,
+                },
+                fileLoad,
+            ).then(() => getPlanesDeTesis());
+        }
+    }
 </script>
 
 <div class="grid gap-4">
@@ -32,6 +68,7 @@
                 type="file"
                 class="hidden"
                 accept="application/pdf"
+                onchange={handleChange}
             />
         </div>
     </div>
@@ -43,236 +80,63 @@
 
     <!-- PLANES -->
     <div class="grid gap-8">
-        <div class="flex items-start gap-2">
-            <UserBagde
-                username="Elizon Carcausto"
-                email="elizon.carcausto@unsaac.edu.pe"
-                variant="icon"
-            />
+        {#each planes as plan}
+            <div class="flex items-start gap-2">
+                {#if plan.createdBy}
+                    <UserBagde
+                        username={plan.createdBy.username}
+                        email={plan.createdBy.email}
+                        variant="icon"
+                    />
+                {/if}
 
-            <div class="border rounded-lg w-full">
-                <div class="flex justify-between items-center bg-accent">
-                    <div class="flex items-center">
-                        <Button variant="link">
-                            <FileText />
-                            Plan de Tesis
-                        </Button>
-                        <span class="text-xs opacity-50">
-                            Creado 29 Ago 2025 - 04:43 p.m.
-                        </span>
-                    </div>
-                </div>
+                <div class="border rounded-lg w-full">
+                    <div class="flex justify-between items-center bg-accent">
+                        <div class="flex items-center justify-between">
+                            <a href={`/pdf/${plan.pdfPath}`} target="_blank">
+                                <Button variant="link">
+                                    <FileText />
+                                    Plan de Tesis
+                                </Button>
+                            </a>
 
-                <div class="border-t px-4 py-2 items-center">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <Badge>Asesor</Badge>
-                            <UserBagde
-                                username="Lauro Enciso Rodas"
-                                email="lauro.enciso@unsaac.edu.pe"
-                                variant="text"
-                            />
-                        </div>
-                        <div>
-                            <Badge class="bg-green-600">
-                                <CircleCheck />
-                                APROBADO, 30 Ago 2025 - 10:14 a.m.
-                            </Badge>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex items-center">
-                            <Button variant="link" class="font-normal">
-                                <FileCheck />
-                                Plan de Tesis Firmado
-                            </Button>
                             <span class="text-xs opacity-50">
-                                Creado 31 Ago 2025 - 05:43 p.m.
+                                Creado {formatDateToISO(plan.createdAt)}
                             </span>
                         </div>
-                        <div class="flex items-center">
-                            <Button variant="link" class="font-normal">
-                                <FileChartColumn />
-                                Informe Turniting
-                            </Button>
+                        <div class="px-2">
+                            {#if !plan.revision}
+                                <Button variant="link">
+                                    <Trash />
+                                    Eliminar
+                                </Button>
+                            {/if}
+                        </div>
+                    </div>
+
+                    {#if plan.revision}
+                        <div class="border-t px-4 py-2">
+                            <div>
+                                <Badge>Asesor</Badge>
+                                {#if plan.revision.createdBy}
+                                    <UserBagde
+                                        username={plan.revision.createdBy
+                                            .username}
+                                        email={plan.revision.createdBy.email}
+                                        variant="text"
+                                    />
+                                {/if}
+                            </div>
+                            <p class="text-sm my-2">
+                                {plan.revision.comentario}
+                            </p>
                             <span class="text-xs opacity-50">
-                                Creado 31 Ago 2025 - 08:14 p.m.
+                                {formatDateToISO(plan.revision.updatedAt)}
                             </span>
                         </div>
-                    </div>
+                    {/if}
                 </div>
             </div>
-        </div>
-
-        <!-- <div class="flex items-start gap-2">
-            <UserBagde
-                username="Elizon Carcausto"
-                email="elizon.carcausto@unsaac.edu.pe"
-                variant="icon"
-            />
-
-            <div class="border rounded-lg w-full">
-                <div class="flex justify-between items-center bg-accent">
-                    <div class="flex items-center">
-                        <Button variant="link">
-                            <FileText />
-                            Plan de Tesis
-                        </Button>
-                        <span class="text-xs opacity-50">
-                            Creado 25 Jun 2025 - 03:43 p.m.
-                        </span>
-                    </div>
-                </div>
-
-                <div class="border-t px-4 py-2 items-center">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <Badge>Asesor</Badge>
-                            <UserBagde
-                                username="Lauro Enciso Rodas"
-                                email="lauro.enciso@unsaac.edu.pe"
-                                variant="text"
-                            />
-                        </div>
-                        <div class="px-10">
-                            <Badge class="bg-green-600">
-                                <CircleCheck />
-                                Aprovado
-                            </Badge>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="text-xs opacity-50 p-2">
-                            A la espera del <span class="font-bold"
-                                >Plan de Tesis Firmado</span
-                            >
-                            y del
-                            <span class="font-bold">Informe Turniting</span>
-                        </p>
-                        <p class="text-xs opacity-50 p-2">
-                            A la espera del
-                            <span class="font-bold">Informe Turniting</span>
-                        </p>
-                        <p class="text-xs opacity-50 p-2">
-                            A la espera del <span class="font-bold"
-                                >Plan de Tesis Firmado</span
-                            >
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-        <div class="flex items-start gap-2">
-            <UserBagde
-                username="Brayan"
-                email="elizon.carcausto@unsaac.edu.pe"
-                variant="icon"
-            />
-
-            <div class="border rounded-lg w-full">
-                <div class="flex justify-between items-center bg-accent">
-                    <div class="flex items-center">
-                        <Button variant="link">
-                            <FileText />
-                            Plan de Tesis
-                        </Button>
-                        <span class="text-xs opacity-50">
-                            Creado 27 Ago 2025 - 03:43 p.m.
-                        </span>
-                    </div>
-                    <div class="px-2">
-                        <Button variant="link">
-                            <Trash />
-                            Eliminar
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="flex items-start gap-2">
-            <UserBagde
-                username="Elizon Carcausto"
-                email="elizon.carcausto@unsaac.edu.pe"
-                variant="icon"
-            />
-
-            <div class="border rounded-lg w-full">
-                <div class="flex justify-between items-center bg-accent">
-                    <div class="flex items-center">
-                        <Button variant="link">
-                            <FileText />
-                            Plan de Tesis
-                        </Button>
-                        <span class="text-xs opacity-50">
-                            Creado 25 Jun 2025 - 03:43 p.m.
-                        </span>
-                    </div>
-                </div>
-
-                <div class="border-t px-4 py-2">
-                    <div>
-                        <Badge>Asesor</Badge>
-                        <UserBagde
-                            username="Lauro Enciso Rodas"
-                            email="lauro.enciso@unsaac.edu.pe"
-                            variant="text"
-                        />
-                    </div>
-                    <div>
-                        <textarea
-                            class="w-full text-sm text-balance"
-                            value={coment}
-                        ></textarea>
-                    </div>
-                    <span class="text-xs opacity-50">
-                        Editado 25 Jun 2025 - 03:43 p.m.
-                    </span>
-                </div>
-            </div>
-        </div> -->
-
-        <div class="flex items-start gap-2">
-            <UserBagde
-                username="Brayan"
-                email="elizon.carcausto@unsaac.edu.pe"
-                variant="icon"
-            />
-
-            <div class="border rounded-lg w-full">
-                <div class="flex justify-between items-center bg-accent">
-                    <div class="flex items-center">
-                        <Button variant="link">
-                            <FileText />
-                            Plan de Tesis
-                        </Button>
-                        <span class="text-xs opacity-50">
-                            Creado 27 Ago 2025 - 03:43 p.m.
-                        </span>
-                    </div>
-                </div>
-
-                <div class="border-t px-4 py-2">
-                    <div>
-                        <Badge>Asesor</Badge>
-                        <UserBagde
-                            username="Lauro Enciso Rodas"
-                            email="lauro.enciso@unsaac.edu.pe"
-                            variant="text"
-                        />
-                    </div>
-                    <div>
-                        <textarea
-                            class="w-full text-sm text-balance"
-                            value={coment}
-                        ></textarea>
-                    </div>
-                    <span class="text-xs opacity-50">
-                        Creado 28 Ago 2025 - 10:14 a.m.
-                    </span>
-                </div>
-            </div>
-        </div>
+        {/each}
     </div>
 </div>

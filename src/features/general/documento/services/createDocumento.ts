@@ -4,7 +4,8 @@ import { deserializerDocumento } from "../model"
 export interface DocumentoCreate {
     tipo: string,
     docUrl: string,
-    proyecto: string
+    proyectoId: string,
+    usuarioId: string
 }
 
 export async function createDocumento(data: DocumentoCreate, file?: File) {

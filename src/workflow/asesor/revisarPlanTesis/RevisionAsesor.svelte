@@ -14,8 +14,26 @@
     import Pencil from "@lucide/svelte/icons/pencil";
     import Label from "$lib/components/ui/label/label.svelte";
     import Input from "$lib/components/ui/input/input.svelte";
+    import { DocumentoStore } from "../../../features/general/documento/store.svelte";
+    import { page } from "$app/state";
+    import type { Documento } from "../../../features/general/documento/model";
+    import { onMount } from "svelte";
+    import { formatDateToISO } from "$lib";
+    import RevisionPlan from "./RevisionPlan.svelte";
 
-    const coment = `Es importante precisar con mayor detalle los límites y alcances de la ontología propuesta: ¿qué conceptos del proceso de gestión de tesis serán modelados y cuáles quedarán fuera? Esto permitirá evitar que el trabajo sea demasiado amplio o difuso, y garantizará que la implementación sea viable dentro del tiempo y recursos disponibles.`;
+    const proyectoId = page.params.id;
+    let planes = $state<Documento[]>([]);
+
+    function getPlanesDeTesis() {
+        DocumentoStore.getDocumentosRevision(proyectoId, "PLAN DE TESIS").then(
+            (data) => {
+                planes = data;
+                console.log(data);
+            },
+        );
+    }
+
+    onMount(() => getPlanesDeTesis());
 </script>
 
 <div class="grid gap-4">
@@ -29,6 +47,10 @@
 
     <!-- PLANES -->
     <div class="grid gap-8">
+        {#each planes as plan}
+            <RevisionPlan {plan} />
+        {/each}
+
         <!-- <div class="flex items-start gap-2">
             <UserBagde
                 username="Elizon Carcausto"
@@ -90,80 +112,7 @@
             </div>
         </div> -->
 
-        <div class="flex items-start gap-2">
-            <UserBagde
-                username="Brayan"
-                email="elizon.carcausto@unsaac.edu.pe"
-                variant="icon"
-            />
-
-            <div class="border rounded-lg w-full">
-                <div class="flex justify-between items-center bg-accent">
-                    <div class="flex items-center">
-                        <Button variant="link">
-                            <FileText />
-                            Plan de Tesis
-                        </Button>
-                        <span class="text-xs opacity-50">
-                            Creado 29 Ago 2025 - 04:43 p.m.
-                        </span>
-                    </div>
-                </div>
-
-                <div class="border-t px-4 py-2">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <Badge>Asesor</Badge>
-                            <UserBagde
-                                username="Lauro Enciso Rodas"
-                                email="lauro.enciso@unsaac.edu.pe"
-                                variant="text"
-                            />
-                        </div>
-                        <div>
-                            <Badge class="bg-green-600">
-                                <CircleCheck />
-                                APROBADO, 30 Ago 2025 - 10:14 a.m.
-                            </Badge>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-4 p-2">
-                            <Label
-                                for="file-input"
-                                class={buttonVariants({ variant: "outline" })}
-                            >
-                                <FileUp />
-                                Subir Plan de Tesis Firmado
-                            </Label>
-                            <Input
-                                id="file-input"
-                                type="file"
-                                class="hidden"
-                                accept="application/pdf"
-                            />
-                        </div>
-                        <div class="flex items-center gap-4 p-2">
-                            <Label
-                                for="file-input"
-                                class={buttonVariants({ variant: "outline" })}
-                            >
-                                <FileUp />
-                                Subir Informe Turniting
-                            </Label>
-                            <Input
-                                id="file-input"
-                                type="file"
-                                class="hidden"
-                                accept="application/pdf"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex items-start gap-2">
+        <!-- <div class="flex items-start gap-2">
             <UserBagde
                 username="Brayan"
                 email="elizon.carcausto@unsaac.edu.pe"
@@ -193,9 +142,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="flex items-start gap-2">
+        <!-- <div class="flex items-start gap-2">
             <UserBagde
                 username="Brayan"
                 email="elizon.carcausto@unsaac.edu.pe"
@@ -221,26 +170,8 @@
                     </div>
                 </div>
 
-                <div class="border-t px-4 py-2">
-                    <div>
-                        <Badge>Asesor</Badge>
-                        <UserBagde
-                            username="Lauro Enciso Rodas"
-                            email="lauro.enciso@unsaac.edu.pe"
-                            variant="text"
-                        />
-                    </div>
-                    <div>
-                        <textarea
-                            class="w-full text-sm text-balance"
-                            value={coment}
-                        ></textarea>
-                    </div>
-                    <span class="text-xs opacity-50">
-                        Creado 28 Ago 2025 - 10:14 a.m.
-                    </span>
-                </div>
+                
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
