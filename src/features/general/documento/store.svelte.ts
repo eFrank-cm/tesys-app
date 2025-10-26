@@ -1,19 +1,20 @@
 import type { Documento } from "./model"
 import { createDocumento, type DocumentoCreate } from "./services/createDocumento"
+import { deleteDocumentoById } from "./services/deleteById"
 import { editDocumento, type DocumentoUpdate } from "./services/editDocumento"
 import { getCartaDeAceptacionByProyectoID } from "./services/getCartaAceptacion"
+import { getDocumentoRevisionById } from "./services/getDocumentoRevisiones"
 import { getDocumentosWithRevision } from "./services/getDocumentosRevision"
 import { getPreviewPDF } from "./services/getPreviewPDF"
-import { test } from "./services/test"
-
 
 interface DocumentoStore {
     getPDF: (pdfPath: string) => Promise<string>
     getCarta: (proyectoId: string) => Promise<Documento | null>
-    getDocumentosRevision: (proyectoId: string, tipo?: string) => Promise<Documento[]>
+    getDocumentosWithRevision: (proyectoId: string, tipo?: string) => Promise<Documento[]>
     create: (body: DocumentoCreate, file?: File) => Promise<Documento>
-    edit: (id: string, data: DocumentoUpdate, file?: File) => Promise<Documento>
-    test: (file: File) => Promise<void>
+    edit: (id: string, body: DocumentoUpdate, file?: File) => Promise<Documento>
+    delete: (documentoId: string) => Promise<void>
+    get: (documentoId: string) => Promise<Documento | null>
 }
 
 export const DocumentoStore = $state<DocumentoStore>({
@@ -26,7 +27,7 @@ export const DocumentoStore = $state<DocumentoStore>({
         const data = await getCartaDeAceptacionByProyectoID(proyectoId)
         return data
     },
-    async getDocumentosRevision(proyectoId, tipo) {
+    async getDocumentosWithRevision(proyectoId, tipo) {
         const data = getDocumentosWithRevision(proyectoId, tipo)
         return data
     },
@@ -41,7 +42,12 @@ export const DocumentoStore = $state<DocumentoStore>({
         return data
     },
 
-    async test(file) {
-        await test(file)
+    async get(documentoId) {
+        const data = await getDocumentoRevisionById(documentoId)
+        return data
+    },
+
+    async delete(documentoId) {
+        await deleteDocumentoById(documentoId)
     }
 })

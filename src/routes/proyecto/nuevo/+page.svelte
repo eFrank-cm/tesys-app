@@ -7,6 +7,7 @@
     import Textarea from "$lib/components/ui/textarea/textarea.svelte";
     import { ProyectoStore } from "../../../features/general/proyecto/store.svelte";
     import { PropuestaStore } from "../../../features/planTesis/propuesta/store.svelte";
+    import { toast } from "svelte-sonner";
 
     let tipo = $state("TESIS DE PREGRADO");
     let nombreProyecto = $state("");
@@ -26,10 +27,10 @@
                 resumen,
                 proyectoId: nuevoProyecto.id,
             });
-            console.log(nuevaPropuesta);
+            toast.success("Proyecto creado")
             goto(`/proyecto/${nuevoProyecto.id}`);
         } catch (e) {
-            console.log(e);
+            toast.error(`Error al guardar`);
         }
     }
 </script>

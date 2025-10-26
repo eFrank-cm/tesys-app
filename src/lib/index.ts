@@ -15,6 +15,7 @@ export function decamelize<T>(obj: T): any {
 }
 
 export function formatDateToISO(iso: string): string {
+    if (iso.trim() === '') return ''
     const date = new Date(iso);
 
     const options: Intl.DateTimeFormatOptions = {

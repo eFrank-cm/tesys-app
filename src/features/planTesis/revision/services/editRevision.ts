@@ -4,6 +4,7 @@ import { deserializerRevision } from "../model";
 
 export interface RevisionUpdate {
     comentario: string
+    estado: string
 }
 
 export async function editRevisionById(revisionId: string, payload: RevisionUpdate) {
@@ -11,6 +12,9 @@ export async function editRevisionById(revisionId: string, payload: RevisionUpda
     try {
         const res = await fetch(url, {
             method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify(decamelize(payload))
         });
 

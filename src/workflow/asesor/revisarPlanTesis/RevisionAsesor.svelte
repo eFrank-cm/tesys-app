@@ -20,17 +20,19 @@
     import { onMount } from "svelte";
     import { formatDateToISO } from "$lib";
     import RevisionPlan from "./RevisionPlan.svelte";
+    import { getRevisionEmpty } from "../../../features/planTesis/revision/model";
 
     const proyectoId = page.params.id;
     let planes = $state<Documento[]>([]);
 
     function getPlanesDeTesis() {
-        DocumentoStore.getDocumentosRevision(proyectoId, "PLAN DE TESIS").then(
-            (data) => {
-                planes = data;
-                console.log(data);
-            },
-        );
+        DocumentoStore.getDocumentosWithRevision(
+            proyectoId,
+            "PLAN DE TESIS",
+        ).then((data) => {
+            planes = data;
+            console.log(data);
+        });
     }
 
     onMount(() => getPlanesDeTesis());
@@ -46,132 +48,12 @@
     </p>
 
     <!-- PLANES -->
-    <div class="grid gap-8">
-        {#each planes as plan}
-            <RevisionPlan {plan} />
+    <div class="flex flex-col-reverse gap-8">
+        {#each planes as plan, index}
+            <RevisionPlan
+                {plan}
+                able={index + 1 === planes.length ? true : false}
+            />
         {/each}
-
-        <!-- <div class="flex items-start gap-2">
-            <UserBagde
-                username="Elizon Carcausto"
-                email="elizon.carcausto@unsaac.edu.pe"
-                variant="icon"
-            />
-
-            <div class="border rounded-lg w-full">
-                <div class="flex justify-between items-center bg-accent">
-                    <div class="flex items-center">
-                        <Button variant="link">
-                            <FileText />
-                            Plan de Tesis
-                        </Button>
-                        <span class="text-xs opacity-50">
-                            Creado 25 Jun 2025 - 03:43 p.m.
-                        </span>
-                    </div>
-                </div>
-
-                <div class="border-t px-4 py-2 items-center">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <Badge>Asesor</Badge>
-                            <UserBagde
-                                username="Lauro Enciso Rodas"
-                                email="lauro.enciso@unsaac.edu.pe"
-                                variant="text"
-                            />
-                        </div>
-                        <div class="px-10">
-                            <Badge class="bg-green-600">
-                                <CircleCheck />
-                                Aprovado
-                            </Badge>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex items-center">
-                            <Button variant="link" class="font-normal">
-                                <FileCheck />
-                                Plan de Tesis Firmado
-                            </Button>
-                            <span class="text-xs opacity-50">
-                                Creado 25 Jun 2025 - 03:43 p.m.
-                            </span>
-                        </div>
-                        <div class="flex items-center">
-                            <Button variant="link" class="font-normal">
-                                <FileChartColumn />
-                                Informe Turniting
-                            </Button>
-                            <span class="text-xs opacity-50">
-                                Creado 25 Jun 2025 - 03:43 p.m.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- <div class="flex items-start gap-2">
-            <UserBagde
-                username="Brayan"
-                email="elizon.carcausto@unsaac.edu.pe"
-                variant="icon"
-            />
-
-            <div class="border rounded-lg w-full">
-                <div class="flex justify-between items-center bg-accent">
-                    <div class="flex items-center">
-                        <Button variant="link">
-                            <FileText />
-                            Plan de Tesis
-                        </Button>
-                        <span class="text-xs opacity-50">
-                            Creado 27 Ago 2025 - 03:43 p.m.
-                        </span>
-                    </div>
-                    <div class="px-2">
-                        <Button variant="link">
-                            <MessageSquare />
-                            Comentar
-                        </Button>
-                        <Button variant="link">
-                            <CircleCheck />
-                            Aprobar
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- <div class="flex items-start gap-2">
-            <UserBagde
-                username="Brayan"
-                email="elizon.carcausto@unsaac.edu.pe"
-                variant="icon"
-            />
-
-            <div class="border rounded-lg w-full">
-                <div class="flex justify-between items-center bg-accent">
-                    <div class="flex items-center">
-                        <Button variant="link">
-                            <FileText />
-                            Plan de Tesis
-                        </Button>
-                        <span class="text-xs opacity-50">
-                            Creado 27 Ago 2025 - 03:43 p.m.
-                        </span>
-                    </div>
-                    <div class="px-2">
-                        <Button variant="link">
-                            <Pencil />
-                            Editar
-                        </Button>
-                    </div>
-                </div>
-
-                
-            </div>
-        </div> -->
     </div>
 </div>

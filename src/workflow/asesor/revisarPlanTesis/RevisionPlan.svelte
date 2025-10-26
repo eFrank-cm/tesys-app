@@ -15,29 +15,63 @@
     import Input from "$lib/components/ui/input/input.svelte";
     import MessageSquare from "@lucide/svelte/icons/message-square";
     import Plus from "@lucide/svelte/icons/plus";
-    import {
-        getRevisionEmpty,
-        type Revision,
-    } from "../../../features/planTesis/revision/model";
+    import { getRevisionEmpty } from "../../../features/planTesis/revision/model";
     import { onMount } from "svelte";
+    import { toast } from "svelte-sonner";
+    import { RevisionStore } from "../../../features/planTesis/revision/store.svelte";
+    import { authStore } from "$lib/auth/store.svelte";
+    import X from "@lucide/svelte/icons/x";
+    import { DocumentoStore } from "../../../features/general/documento/store.svelte";
+    import DocumentoInput from "../../../features/general/documento/components/DocumentoInput.svelte";
 
     interface Props {
         plan: Documento;
+        able: boolean;
     }
 
-    let { plan }: Props = $props();
-    let revision = $state(getRevisionEmpty());
-
-    onMount(() => {
-        if (plan.revision) revision = plan.revision;
+    let { plan, able }: Props = $props();
+    let revision = $derived.by(() => {
+        if (plan.revisiones.length === 0) return getRevisionEmpty();
+        else if (plan.revisiones.length === 1) return plan.revisiones[0];
+        else {
+            toast.error(
+                `Documento: ${plan.id}, con ${plan.revisiones.length} revisiones`,
+            );
+            return plan.revisiones[0];
+        }
     });
 
-    function onSave() {
-        console.log(plan.revision);
+    function refresh() {
+        DocumentoStore.get(plan.id).then((data) => {
+            if (data) plan = data;
+        });
     }
 
-    function onDelete() {
-        console.log(plan.revision?.id);
+    function onSave(estado: "APROBADO" | "REVISION") {
+        if (!authStore.user || !able) {
+            toast.error("No logeado");
+            return;
+        }
+
+        if (plan.revisiones.length === 0) {
+            RevisionStore.create({
+                comentario: revision.comentario,
+                estado: estado,
+                createdById: authStore.user.id,
+                documentoId: plan.id,
+            }).then(() => refresh());
+            console.log("crear");
+        } else {
+            RevisionStore.edit(revision.id, {
+                comentario: revision.comentario,
+                estado: estado,
+            }).then(() => refresh());
+            console.log("editar");
+        }
+    }
+
+    function deleteRevision() {
+        RevisionStore.delete(revision.id).then(() => refresh());
     }
 </script>
 
@@ -63,182 +97,76 @@
                     Creado {formatDateToISO(plan.createdAt)}
                 </span>
             </div>
-            <div class="px-2">
-                <Button variant="link">
-                    <MessageSquare />
-                    Comentar
-                </Button>
-                <Button variant="link">
-                    <CircleCheck />
-                    Aprobar
-                </Button>
-            </div>
         </div>
 
-        {#if plan.revision}
-            <div class="border-t px-4 py-2">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <Badge>Asesor</Badge>
-                        {#if revision.createdBy}
-                            <UserBagde
-                                username={revision.createdBy.username}
-                                email={revision.createdBy.email}
-                                variant="text"
-                            />
-                        {/if}
-                    </div>
-                </div>
-                <div>
-                    {#if plan.revision.estado === "APROBADO"}
-                        <div class="flex items-center gap-4 p-2">
-                            <Label
-                                for="file-input"
-                                class={buttonVariants({
-                                    variant: "outline",
-                                })}
-                            >
-                                <FileUp />
-                                Subir Plan de Tesis Firmado
-                            </Label>
-                            <Input
-                                id="file-input"
-                                type="file"
-                                class="hidden"
-                                accept="application/pdf"
-                            />
-                        </div>
-                        <div class="flex items-center gap-4 p-2">
-                            <Label
-                                for="file-input"
-                                class={buttonVariants({
-                                    variant: "outline",
-                                })}
-                            >
-                                <FileUp />
-                                Subir Informe Turniting
-                            </Label>
-                            <Input
-                                id="file-input"
-                                type="file"
-                                class="hidden"
-                                accept="application/pdf"
-                            />
-                        </div>
-                    {:else}
-                        <div>
-                            <textarea
-                                class="w-full text-sm text-balance border py-1 px-2 rounded-lg"
-                                bind:value={revision.comentario}
-                            ></textarea>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs opacity-50">
-                                {formatDateToISO(plan.revision.updatedAt)}
-                            </span>
-                            <div>
-                                <Button variant="link" onclick={onSave}>
-                                    <Save />
-                                    Guardar
-                                </Button>
-                                <Button variant="link" onclick={onDelete}>
-                                    <Trash2 />
-                                    Eliminar
-                                </Button>
-                            </div>
-                        </div>
-                    {/if}
-                </div>
-            </div>
-        {:else}{/if}
-    </div>
-</div>
-
-<!-- 
-<div class="border-t px-4 py-2">
-    <div class="flex justify-between items-center">
-        <div>
-            <Badge>Asesor</Badge>
-            {#if plan.revision.createdBy}
-                <UserBagde
-                    username={plan.revision.createdBy.username}
-                    email={plan.revision.createdBy.email}
-                    variant="text"
-                />
-            {/if}
-        </div>
-    </div>
-    <div>
-        {#if plan.revision.estado === "APROBADO"}
-            <div class="flex items-center gap-4 p-2">
-                <Label
-                    for="file-input"
-                    class={buttonVariants({
-                        variant: "outline",
-                    })}
-                >
-                    <FileUp />
-                    Subir Plan de Tesis Firmado
-                </Label>
-                <Input
-                    id="file-input"
-                    type="file"
-                    class="hidden"
-                    accept="application/pdf"
-                />
-            </div>
-            <div class="flex items-center gap-4 p-2">
-                <Label
-                    for="file-input"
-                    class={buttonVariants({
-                        variant: "outline",
-                    })}
-                >
-                    <FileUp />
-                    Subir Informe Turniting
-                </Label>
-                <Input
-                    id="file-input"
-                    type="file"
-                    class="hidden"
-                    accept="application/pdf"
-                />
-            </div>
-        {:else}
+        <div class="border-t px-4 py-2">
             <div>
-                <textarea
-                    class="w-full text-sm text-balance border py-1 px-2 rounded-lg"
-                    bind:value={plan.revision.comentario}
-                ></textarea>
+                {#if revision.estado === "APROBADO"}
+                    <div class="grid gap-2">
+                        <DocumentoInput
+                            label="Plan de Tesis Firmado"
+                            tipo="PLAN DE TESIS FIRMADO"
+                            proyectoId={plan.proyectoId}
+                        />
+                        <DocumentoInput
+                            label="Informe Turniting"
+                            tipo="INFORME TURNITING"
+                            proyectoId={plan.proyectoId}
+                        />
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <div class="w-full">
+                            <Badge class="bg-green-600 text-secondary">
+                                APROBADO
+                            </Badge>
+                            <span class="text-xs font-semibold">
+                                {formatDateToISO(revision.updatedAt)}
+                            </span>
+                        </div>
+                        <div class="w-full flex justify-end items-center">
+                            <Button
+                                variant="link"
+                                class="text-red-500"
+                                size="compact"
+                                onclick={deleteRevision}
+                            >
+                                <X /> Cancelar aprobacion
+                            </Button>
+                        </div>
+                    </div>
+                {:else if able}
+                    <div>
+                        <textarea
+                            class="w-full text-sm text-balance border py-1 px-2 rounded-lg"
+                            placeholder="Digite las observaciones que posee el documento..."
+                            bind:value={revision.comentario}
+                        ></textarea>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs opacity-50">
+                            {formatDateToISO(revision.updatedAt)}
+                        </span>
+                        <div>
+                            <Button
+                                variant="link"
+                                onclick={() => onSave("APROBADO")}
+                            >
+                                <CircleCheck />
+                                Aprobar
+                            </Button>
+                            <Button
+                                variant="link"
+                                onclick={() => onSave("REVISION")}
+                            >
+                                <Save />
+                                Guardar
+                            </Button>
+                        </div>
+                    </div>
+                {:else}
+                    <p>{revision.comentario}</p>
+                {/if}
             </div>
-            <div class="flex items-center justify-between">
-                <span class="text-xs opacity-50">
-                    {formatDateToISO(plan.revision.updatedAt)}
-                </span>
-                <div>
-                    <Button variant="link" onclick={onSave}>
-                        <Save />
-                        Guardar
-                    </Button>
-                    <Button variant="link" onclick={onDelete}>
-                        <Trash2 />
-                        Eliminar
-                    </Button>
-                </div>
-            </div>
-        {/if}
+        </div>
     </div>
 </div>
- -->
-<!-- 
-<div class="px-2">
-    <Button variant="link">
-        <MessageSquare />
-        Comentar
-    </Button>
-    <Button variant="link">
-        <CircleCheck />
-        Aprobar
-    </Button>
-</div> 
--->

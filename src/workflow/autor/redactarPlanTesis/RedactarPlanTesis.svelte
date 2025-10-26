@@ -4,9 +4,6 @@
     } from "$lib/components/ui/button/button.svelte";
     import UserBagde from "$lib/auth/componentes/UserBagde.svelte";
     import FileText from "@lucide/svelte/icons/file-text";
-    import FileChartColumn from "@lucide/svelte/icons/file-chart-column";
-    import CircleCheck from "@lucide/svelte/icons/circle-check";
-    import FileCheck from "@lucide/svelte/icons/file-check";
     import FilePlus2 from "@lucide/svelte/icons/file-plus-2";
     import Trash from "@lucide/svelte/icons/trash";
     import Badge from "$lib/components/ui/badge/badge.svelte";
@@ -18,19 +15,19 @@
     import { page } from "$app/state";
     import { onMount } from "svelte";
     import { formatDateToISO } from "$lib";
-    import { goto } from "$app/navigation";
+    import DocumentoInput from "../../../features/general/documento/components/DocumentoInput.svelte";
 
     const proyectoId = page.params.id;
     let planes = $state<Documento[]>([]);
     let fileLoad = $state<File | null>(null);
 
     function getPlanesDeTesis() {
-        DocumentoStore.getDocumentosRevision(proyectoId, "PLAN DE TESIS").then(
-            (data) => {
-                planes = data;
-                console.log(data);
-            },
-        );
+        DocumentoStore.getDocumentosWithRevision(
+            proyectoId,
+            "PLAN DE TESIS",
+        ).then((data) => {
+            planes = data;
+        });
     }
 
     onMount(() => getPlanesDeTesis());
@@ -49,6 +46,10 @@
                 fileLoad,
             ).then(() => getPlanesDeTesis());
         }
+    }
+
+    function onDelete(documentoId: string) {
+        DocumentoStore.delete(documentoId).then(() => getPlanesDeTesis());
     }
 </script>
 
@@ -79,8 +80,8 @@
     </p>
 
     <!-- PLANES -->
-    <div class="grid gap-8">
-        {#each planes as plan}
+    <div class="flex flex-col-reverse gap-8">
+        {#each planes as plan, index}
             <div class="flex items-start gap-2">
                 {#if plan.createdBy}
                     <UserBagde
@@ -104,37 +105,65 @@
                                 Creado {formatDateToISO(plan.createdAt)}
                             </span>
                         </div>
-                        <div class="px-2">
-                            {#if !plan.revision}
-                                <Button variant="link">
+                        {#if index + 1 === planes.length && plan.revisiones.length === 0}
+                            <div class="px-2">
+                                <Button
+                                    variant="link"
+                                    onclick={() => onDelete(plan.id)}
+                                >
                                     <Trash />
                                     Eliminar
                                 </Button>
-                            {/if}
-                        </div>
+                            </div>
+                        {/if}
                     </div>
 
-                    {#if plan.revision}
+                    <!-- REVISION -->
+                    {#each plan.revisiones as revision}
                         <div class="border-t px-4 py-2">
                             <div>
                                 <Badge>Asesor</Badge>
-                                {#if plan.revision.createdBy}
+                                {#if revision.createdBy}
                                     <UserBagde
-                                        username={plan.revision.createdBy
-                                            .username}
-                                        email={plan.revision.createdBy.email}
+                                        username={revision.createdBy.username}
+                                        email={revision.createdBy.email}
                                         variant="text"
                                     />
                                 {/if}
                             </div>
-                            <p class="text-sm my-2">
-                                {plan.revision.comentario}
-                            </p>
-                            <span class="text-xs opacity-50">
-                                {formatDateToISO(plan.revision.updatedAt)}
-                            </span>
+                            {#if revision.estado === "APROBADO"}
+                                <div class="text-sm my-2">
+                                    <DocumentoInput
+                                        label="Plan de Tesis Firmado"
+                                        tipo="PLAN DE TESIS FIRMADO"
+                                        proyectoId={plan.proyectoId}
+                                        readonly={true}
+                                    />
+                                    <DocumentoInput
+                                        label="Informe Turniting"
+                                        tipo="INFORME TURNITING"
+                                        proyectoId={plan.proyectoId}
+                                        readonly={true}
+                                    />
+                                </div>
+                                <div>
+                                    <Badge class="bg-green-600 text-secondary">
+                                        APROBADO
+                                    </Badge>
+                                    <span class="text-xs font-semibold">
+                                        {formatDateToISO(revision.updatedAt)}
+                                    </span>
+                                </div>
+                            {:else}
+                                <p class="text-sm my-2">
+                                    {revision.comentario}
+                                </p>
+                                <span class="text-xs opacity-50">
+                                    {formatDateToISO(revision.updatedAt)}
+                                </span>
+                            {/if}
                         </div>
-                    {/if}
+                    {/each}
                 </div>
             </div>
         {/each}

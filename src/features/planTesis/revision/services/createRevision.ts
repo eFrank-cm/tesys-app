@@ -11,11 +11,17 @@ export interface RevisionCreate {
 
 export async function createRevision(payload: RevisionCreate) {
     const url = `${URL_API}/plan-tesis/revisiones/create`
+    const b = decamelize(payload)
+    console.log(b)
+
 
     try {
         const response = await fetch(url, {
             method: "POST",
-            body: JSON.stringify(decamelize(payload))
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(b)
         })
 
         if (!response.ok) {
