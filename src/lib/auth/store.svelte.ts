@@ -11,8 +11,10 @@ interface AuthStore {
     error: string | null
     loading: boolean
 
-    login: (username?: string, password?: string, token?: string) => Promise<void>
+    login: (username?: string, password?: string, token?: string) => Promise<string>
     logout: () => void
+    getRedirectPath: () => string
+    hasRole: (role: string) => boolean
 }
 
 export const authStore = $state<AuthStore>({
@@ -34,18 +36,22 @@ export const authStore = $state<AuthStore>({
                 loginResponse = await verifyCredentials({ username, password })
             }
 
-            if (!loginResponse) return
+            if (!loginResponse) return ''
 
             if (typeof window !== 'undefined') {
                 localStorage.setItem(TOKEN_VAR_NAME, loginResponse.accessToken.token)
                 localStorage.setItem(USER_VAR_NAME, JSON.stringify(loginResponse.user))
             }
             this.token = loginResponse.accessToken.token
-            console.log(loginResponse.user)
             this.user = loginResponse.user
+            console.log(`user: ${this.user}`)
+            const path = this.getRedirectPath()
+            console.log(`path: ${path}`)
+            return path
         }
         catch (error) {
             this.error = 'Error de conexion'
+            return ''
         }
         finally {
             this.loading = false
@@ -59,6 +65,31 @@ export const authStore = $state<AuthStore>({
         }
         this.token = null
         this.user = null
+    },
+
+    getRedirectPath() {
+        if (!this.user) {
+            this.logout()
+            return '/'
+        }
+
+        const tipo = this.user.tipo.toUpperCase()
+        if (tipo === 'ADMIN') {
+            console.log(`retornar admin`)
+            return '/'
+        }
+        else if (tipo === 'NORMAL') {
+            return '/proyectos'
+        }
+        else {
+            this.logout()
+            return '/'
+        }
+    },
+
+    hasRole(role) {
+        if (!this.user) return false
+        return this.user.tipo === role
     },
 });
 

@@ -47,7 +47,9 @@
     );
 
     onMount(() => {
-        UsuarioStore.getAll().then((data) => (usuarios = data));
+        UsuarioStore.getAll().then(
+            (data) => (usuarios = data.filter((u) => u.tipo !== "ADMIN") || []),
+        );
     });
 </script>
 

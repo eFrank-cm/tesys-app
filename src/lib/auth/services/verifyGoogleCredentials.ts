@@ -15,17 +15,16 @@ export async function verifyGoogleCredentials(payload: GoogleLoginRequest): Prom
             body: JSON.stringify(payload),
         })
 
-        if (response.status === 401) return null
+        if (response.status === 401 || response.status === 403) return null
 
-        if (!response.ok) throw new Error("Error al verificar las credenciales de Google")
-        const result = await response.json()
+        if (!response.ok) throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`)
+        const result = await response.json();
 
         return {
             accessToken: result?.accessToken ?? { token: '', tokenType: '' },
             detail: result?.detail ?? '',
             user: deserializerAuthUser(result?.user),
         }
-
     } catch (error: any) {
         throw new Error(error instanceof Error ? error.message : "Error de red desconocido")
     }

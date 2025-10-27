@@ -12,12 +12,7 @@
 
 	let { children } = $props();
 	const urlCurrent = page.url.toString();
-
-	$effect(() => {
-		if (!authStore.token) {
-			goto("/");
-		}
-	});
+	let isLoggedIn = $derived(!!authStore.token);
 </script>
 
 {#if urlCurrent.includes("/pdf/") && authStore.token}
@@ -43,7 +38,7 @@
 				Estadisticas
 			</Button>
 
-			{#if authStore.token}
+			{#if authStore.token && authStore.user?.tipo === "NORMAL"}
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger>
 						{#snippet child({ props })}
@@ -71,7 +66,52 @@
 							</DropdownMenu.Item>
 						</DropdownMenu.Group>
 						<DropdownMenu.Separator />
-						<DropdownMenu.Item onclick={authStore.logout}>
+						<DropdownMenu.Item
+							onclick={() => {
+								authStore.logout();
+								goto("/");
+							}}
+						>
+							Cerrar sesión
+						</DropdownMenu.Item>
+					</DropdownMenu.Content>
+				</DropdownMenu.Root>
+			{:else if authStore.token && authStore.user?.tipo === "ADMIN"}
+				<DropdownMenu.Root>
+					<DropdownMenu.Trigger>
+						{#snippet child({ props })}
+							<Button
+								variant="link"
+								size="compact"
+								class="text-secondary font-normal"
+								{...props}
+							>
+								{authStore.user?.username}
+								<ChrevronDown />
+							</Button>
+						{/snippet}
+					</DropdownMenu.Trigger>
+					<DropdownMenu.Content class="w-40" align="start">
+						<DropdownMenu.Label>Mi Cuenta</DropdownMenu.Label>
+						<DropdownMenu.Group>
+							<DropdownMenu.Item
+								onclick={() => goto("/admin/usuarios")}
+							>
+								Usuarios
+							</DropdownMenu.Item>
+							<DropdownMenu.Item
+								onclick={() => goto("/admin/proyectos")}
+							>
+								Proyectos
+							</DropdownMenu.Item>
+						</DropdownMenu.Group>
+						<DropdownMenu.Separator />
+						<DropdownMenu.Item
+							onclick={() => {
+								authStore.logout();
+								goto("/");
+							}}
+						>
 							Cerrar sesión
 						</DropdownMenu.Item>
 					</DropdownMenu.Content>

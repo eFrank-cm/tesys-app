@@ -6,7 +6,7 @@
     import LoginForm from "$lib/auth/componentes/LoginForm.svelte";
 
     $effect(() => {
-        if (authStore.token) {
+        if (authStore.token && authStore.user) {
             goto("/");
         }
     });

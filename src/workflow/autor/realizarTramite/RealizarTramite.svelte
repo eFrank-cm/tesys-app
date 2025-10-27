@@ -6,10 +6,71 @@
     import Pencil from "@lucide/svelte/icons/pencil";
     import Check from "@lucide/svelte/icons/check";
     import * as Tabs from "$lib/components/ui/tabs/index.js";
-    import Badge from "$lib/components/ui/badge/badge.svelte";
     import FileText from "@lucide/svelte/icons/file-text";
+    import { TramiteStore } from "../../../features/planTesis/tramite/store.svelte";
+    import { page } from "$app/state";
+    import { toast } from "svelte-sonner";
+    import { onMount } from "svelte";
+    import {
+        getTramiteEmpty,
+        type Tramite,
+    } from "../../../features/planTesis/tramite/model";
 
+    let proyectoId = $derived(page.params.id);
     let disabled = $state(true);
+    let tramite = $state(getTramiteEmpty());
+
+    function getTramite() {
+        TramiteStore.getByProyecto(proyectoId, "TRAMITE 1").then((data) => {
+            if (data.length === 1) {
+                tramite = data[0];
+            }
+        });
+    }
+
+    onMount(() => {
+        getTramite();
+    });
+
+    $effect(() => {
+        console.log("tramite cambiado:", tramite);
+    });
+
+    function onSave() {
+        console.log("onsave");
+        if (tramite.id === "") {
+            console.log("crear");
+            TramiteStore.create({
+                expediente: tramite.expediente,
+                tipo: "TRAMITE 1",
+                estado: "SIN VALIDAR",
+                proyectoId: proyectoId,
+            })
+                .then(() => {
+                    toast.success("Tramite registrado con éxito.");
+                    getTramite();
+                    disabled = true;
+                })
+                .catch((error) => {
+                    toast.error(
+                        `Error al registrar el tramite: ${error.message}`,
+                    );
+                });
+        } else {
+            console.log("editar");
+            TramiteStore.edit(tramite.id, { ...tramite })
+                .then(() => {
+                    toast.success("Tramite actualizado con éxito.");
+                    getTramite();
+                    disabled = true;
+                })
+                .catch((error) => {
+                    toast.error(
+                        `Error al actualizar el tramite: ${error.message}`,
+                    );
+                });
+        }
+    }
 </script>
 
 <div class="">
@@ -105,7 +166,7 @@
                             <Label>Expediente:</Label>
                             <InputOTP.Root
                                 maxlength={6}
-                                value="456987"
+                                bind:value={tramite.expediente}
                                 {disabled}
                             >
                                 {#snippet children({ cells })}
@@ -131,17 +192,23 @@
                                         variant="outline"
                                         class="border-0 text-green-600"
                                         size="icon"
-                                        onclick={() => (disabled = true)}
+                                        onclick={() => {
+                                            onSave();
+                                            disabled = true;
+                                        }}
                                     >
-                                        <XIcon size={5} />
+                                        <Check size={5} />
                                     </Button>
                                     <Button
                                         variant="outline"
                                         class="border-0 text-red-600"
                                         size="icon"
-                                        onclick={() => (disabled = true)}
+                                        onclick={() => {
+                                            getTramite();
+                                            disabled = true;
+                                        }}
                                     >
-                                        <Check size={5} />
+                                        <XIcon size={5} />
                                     </Button>
                                 {/if}
                             </div>

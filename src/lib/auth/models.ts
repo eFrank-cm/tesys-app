@@ -6,6 +6,7 @@ export interface AuthUser {
     nombres: string
     username: string
     picture: string
+    tipo: string
 }
 
 
@@ -26,7 +27,8 @@ export function getEmptyAuthUser(): AuthUser {
         picture: '',
         nombres: '',
         apellidoMaterno: '',
-        apellidoPaterno: ''
+        apellidoPaterno: '',
+        tipo: ''
     }
 }
 
@@ -39,7 +41,8 @@ export function deserializerAuthUser(data: any): AuthUser {
         picture: data?.picture ?? empty.picture,
         nombres: data?.nombres ?? empty.nombres,
         apellidoMaterno: data?.apellidoMaterno ?? empty.apellidoMaterno,
-        apellidoPaterno: data?.apellidoPaterno ?? empty.apellidoPaterno
+        apellidoPaterno: data?.apellidoPaterno ?? empty.apellidoPaterno,
+        tipo: data?.tipo ?? empty.tipo,
     }
 }
 

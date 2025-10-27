@@ -21,15 +21,17 @@
     }
 
     let { plan, able }: Props = $props();
+
+    let revisionesReadonly = $derived(
+        plan.revisiones.filter((r) => r.createdById !== authStore.user?.id),
+    );
+
     let revision = $derived.by(() => {
-        if (plan.revisiones.length === 0) return getRevisionEmpty();
-        else if (plan.revisiones.length === 1) return plan.revisiones[0];
-        else {
-            toast.error(
-                `Documento: ${plan.id}, con ${plan.revisiones.length} revisiones`,
-            );
-            return plan.revisiones[0];
-        }
+        const r = plan.revisiones.find(
+            (r) => r.createdById === authStore.user?.id,
+        );
+        if (r) return r;
+        else return getRevisionEmpty();
     });
 
     function refresh() {
@@ -44,7 +46,8 @@
             return;
         }
 
-        if (plan.revisiones.length === 0) {
+        if (revision.id === "") {
+            console.log("crear");
             RevisionStore.create({
                 comentario: revision.comentario,
                 estado: estado,
@@ -59,6 +62,7 @@
                 refresh();
             });
         } else {
+            console.log("editar");
             RevisionStore.edit(revision.id, {
                 comentario: revision.comentario,
                 estado: estado,
@@ -105,18 +109,63 @@
             </div>
         </div>
 
+        {#each revisionesReadonly as revision (revision.id)}
+            <div class="border-t px-4 py-2">
+                <div>
+                    <Badge>Revisor</Badge>
+                    {#if revision.createdBy}
+                        <UserBagde
+                            username={revision.createdBy.username}
+                            email={revision.createdBy.email}
+                            variant="text"
+                        />
+                    {/if}
+                </div>
+                {#if revision.estado === "APROBADO"}
+                    <div class="text-sm my-2">
+                        <DocumentoInput
+                            label="Plan de Tesis Firmado"
+                            tipo="PLAN DE TESIS FIRMADO"
+                            proyectoId={plan.proyectoId}
+                            readonly={true}
+                        />
+                        <DocumentoInput
+                            label="Informe Turniting"
+                            tipo="INFORME TURNITING"
+                            proyectoId={plan.proyectoId}
+                            readonly={true}
+                        />
+                    </div>
+                    <div>
+                        <Badge class="bg-green-600 text-secondary">
+                            APROBADO
+                        </Badge>
+                        <span class="text-xs font-semibold">
+                            {formatDateToISO(revision.updatedAt)}
+                        </span>
+                    </div>
+                {:else}
+                    <p class="text-sm my-2">
+                        {revision.comentario}
+                    </p>
+                    <span class="text-xs opacity-50">
+                        {formatDateToISO(revision.updatedAt)}
+                    </span>
+                {/if}
+            </div>
+        {/each}
         <div class="border-t px-4 py-2">
             <div>
                 {#if revision.estado === "APROBADO"}
                     <div class="grid gap-2">
                         <DocumentoInput
-                            label="Plan de Tesis Firmado"
-                            tipo="PLAN DE TESIS FIRMADO"
+                            label="Formato de Evaluacion"
+                            tipo="FORMATO DE EVALUACION"
                             proyectoId={plan.proyectoId}
                         />
                         <DocumentoInput
-                            label="Informe Turniting"
-                            tipo="INFORME TURNITING"
+                            label="Informe"
+                            tipo="INFORME"
                             proyectoId={plan.proyectoId}
                         />
                     </div>
@@ -170,7 +219,11 @@
                         </div>
                     </div>
                 {:else}
+                    <Badge>Yo</Badge>
                     <p>{revision.comentario}</p>
+                    <span class="text-xs opacity-50">
+                        {formatDateToISO(revision.updatedAt)}
+                    </span>
                 {/if}
             </div>
         </div>

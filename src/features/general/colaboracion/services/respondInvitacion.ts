@@ -7,8 +7,7 @@ export interface ColaboracionRespond {
 
 export async function respondInvitation(colaboracionId: string, payload: ColaboracionRespond): Promise<Colaboracion> {
     const url = `${URL_API}/general/colaboraciones/responder/${colaboracionId}`;
-    console.log(url)
-    console.log(payload)
+
     try {
         const response = await fetch(url, {
             method: "PATCH",

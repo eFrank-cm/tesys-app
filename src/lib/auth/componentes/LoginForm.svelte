@@ -6,6 +6,7 @@
     import * as Card from "$lib/components/ui/card/index.js";
     import { authStore } from "../store.svelte";
     import LoginGoogle from "./LoginGoogle.svelte";
+    import { goto } from "$app/navigation";
 
     const id = $props.id();
 
@@ -14,7 +15,8 @@
 
     async function handleLogin(event: Event) {
         event.preventDefault();
-        authStore.login(username, password);
+        const path = await authStore.login(username, password);
+        if (path) goto(path);
     }
 </script>
 

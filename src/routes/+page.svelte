@@ -9,7 +9,7 @@
 
 <div class="grid grid-cols-3 gap-2">
     <div class="col-span-2 px-5 flex flex-col gap-8">
-        {#if authStore.token}
+        {#if authStore.token && authStore.user && authStore.user.tipo !== "ADMIN"}
             <div class="flex flex-col gap-3">
                 <h2 class="text-2xl">
                     Bienvenido {authStore.user?.username}

@@ -11,6 +11,7 @@
     import type { Documento } from "../../../features/general/documento/model";
     import Input from "$lib/components/ui/input/input.svelte";
     import Label from "$lib/components/ui/label/label.svelte";
+    import { toast } from "svelte-sonner";
 
     const proyectoId = page.params.id;
 
@@ -27,11 +28,16 @@
         const input = event.target as HTMLInputElement;
         if (input.files && input.files[0] && carta && carta.id) {
             fileLoad = input.files[0];
-            DocumentoStore.edit(carta.id, { replace: true }, fileLoad).then(
-                (data) => {
+            DocumentoStore.edit(carta.id, { replace: true }, fileLoad)
+                .then((data) => {
                     carta = data;
-                },
-            );
+                    toast.success("Carta de aceptación subida con éxito");
+                })
+                .catch((error) => {
+                    toast.error(
+                        `Error al subir la carta de aceptación: ${error.message}`,
+                    );
+                });
         }
     }
 </script>

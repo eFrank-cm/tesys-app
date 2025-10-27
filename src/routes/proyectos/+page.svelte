@@ -55,7 +55,7 @@
     <h1 class="font-bold text-2xl">PROYECTOS</h1>
     <Button onclick={() => goto("/proyecto/nuevo")}>
         <Plus />
-        Nuevos
+        Nuevo
     </Button>
 </div>
 

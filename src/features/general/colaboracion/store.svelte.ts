@@ -11,6 +11,7 @@ interface ColaboracionStore {
     invitar: (body: ColaboracionCreate) => Promise<Colaboracion>
     responderInvitation: (colaboracionId: string, body: ColaboracionRespond) => Promise<Colaboracion>
     delete: (id: string) => Promise<void>
+    getAll(): Promise<Colaboracion[]>
 }
 
 export const ColaboracionStore = $state<ColaboracionStore>({
@@ -33,4 +34,9 @@ export const ColaboracionStore = $state<ColaboracionStore>({
     async delete(id) {
         await deleteColaboracion(id)
     },
+
+    async getAll() {
+        const data: Colaboracion[] = []
+        return data
+    }
 })

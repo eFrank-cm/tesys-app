@@ -1,13 +1,22 @@
 <script lang="ts">
     import { formatDateToISO } from "$lib";
     import UserBagde from "$lib/auth/componentes/UserBagde.svelte";
-    import Button from "$lib/components/ui/button/button.svelte";
+    import Button, {
+        buttonVariants,
+    } from "$lib/components/ui/button/button.svelte";
     import type { Documento } from "../../../features/general/documento/model";
     import FileText from "@lucide/svelte/icons/file-text";
     import Badge from "$lib/components/ui/badge/badge.svelte";
     import CircleCheck from "@lucide/svelte/icons/circle-check";
     import Save from "@lucide/svelte/icons/save";
+    import Trash2 from "@lucide/svelte/icons/trash-2";
+    import Label from "$lib/components/ui/label/label.svelte";
+    import FileUp from "@lucide/svelte/icons/file-up";
+    import Input from "$lib/components/ui/input/input.svelte";
+    import MessageSquare from "@lucide/svelte/icons/message-square";
+    import Plus from "@lucide/svelte/icons/plus";
     import { getRevisionEmpty } from "../../../features/planTesis/revision/model";
+    import { onMount } from "svelte";
     import { toast } from "svelte-sonner";
     import { RevisionStore } from "../../../features/planTesis/revision/store.svelte";
     import { authStore } from "$lib/auth/store.svelte";

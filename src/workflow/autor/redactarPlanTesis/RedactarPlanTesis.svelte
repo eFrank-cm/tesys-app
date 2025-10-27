@@ -16,6 +16,7 @@
     import { onMount } from "svelte";
     import { formatDateToISO } from "$lib";
     import DocumentoInput from "../../../features/general/documento/components/DocumentoInput.svelte";
+    import { toast } from "svelte-sonner";
 
     const proyectoId = page.params.id;
     let planes = $state<Documento[]>([]);
@@ -44,7 +45,16 @@
                     proyectoId: proyectoId,
                 },
                 fileLoad,
-            ).then(() => getPlanesDeTesis());
+            )
+                .then(() => {
+                    toast.success("Plan de tesis subido con éxito");
+                    getPlanesDeTesis();
+                })
+                .catch((error) => {
+                    toast.error(
+                        `Error al subir el plan de tesis: ${error.message}`,
+                    );
+                });
         }
     }
 
