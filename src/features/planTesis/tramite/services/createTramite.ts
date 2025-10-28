@@ -9,7 +9,9 @@ export interface TramiteCreate {
 }
 
 export async function createTramite(payload: TramiteCreate): Promise<Tramite> {
-    const url = `${URL_API}/plan-tesis/tramites`
+    const url = `${URL_API}/plan-tesis/tramites/create`
+    console.log(url)
+    console.log(payload)
 
     try {
         const response = await fetch(url, {

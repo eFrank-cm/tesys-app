@@ -1,22 +1,14 @@
 <p class="text-balance">
-    Este procedimiento permite invitar a un docente a formar parte del proyecto
-    como Revisor de la tesis.
+    El <strong>docente asesor</strong> debe subir la
+    <strong>resolución de aprobación del plan de tesis</strong> al sistema.
 </p>
 
-<ul class="ml-10 list-disc text-balance">
-    <li>
-        <strong>Docente</strong> que será invitado a asesorar la tesis.
-    </li>
-    <li>
-        <strong>Título</strong> tentativo de la tesis.
-    </li>
-    <li>
-        <strong>Descripción</strong> breve del tema, destacando el enfoque principal,
-        los objetivos generales y la relevancia académica.
-    </li>
-</ul>
+<ol class="ml-10 list-decimal text-balance">
+    <li>Verificar que el plan esté aprobado.</li>
+    <li>Subir la resolución en formato <strong>PDF</strong>.</li>
+    <li>Confirmar que se asocie al proyecto correcto.</li>
+</ol>
 
-<p>
-    Finalmente docente selecionado recibirá una notificación para su posible
-    aceptación.
+<p class="text-balance opacity-80">
+    Nota: Esta acción formaliza la aprobación del plan de tesis.
 </p>
