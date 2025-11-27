@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as Accordion from "$lib/components/ui/accordion/index.js";
     import ChevronsRight from "@lucide/svelte/icons/chevrons-right";
+    import MoveRight from "@lucide/svelte/icons/move-right";
     import Button from "$lib/components/ui/button/button.svelte";
     import type { Component } from "svelte";
     import InstRedactarPlanTesis from "./redactarPlanTesis/InstRedactarPlanTesis.svelte";
@@ -29,8 +30,8 @@
             playground: SolicitarAsesoramiento,
         },
         {
-            value: "redactar-plan-tesis",
-            title: "2. Redactar Plan de Tesis",
+            value: "revisar-plan-tesis",
+            title: "2. Revisar Plan de Tesis",
             instructions: InstRedactarPlanTesis,
             playground: RedactarPlanTesis,
         },
@@ -60,6 +61,21 @@
         const tmp = activities.find((act) => act.value === value);
         if (!tmp) return;
         ActSelected = tmp;
+    }
+
+    function seCompletoActividad() {
+        
+    }
+
+    function nextStep() {
+        if (!ActSelected) return;
+        const index = activities.findIndex(
+            (act) => act.value === ActSelected?.value,
+        );
+
+        if (index === -1 || index >= activities.length) return;
+
+        ActSelected = activities[index + 1];
     }
 </script>
 
@@ -101,6 +117,15 @@
     <div class="w-7/12">
         {#if ActSelected}
             <ActSelected.playground />
+
+            {#if ActSelected.value !== activities.at(-1)?.value}
+                <div class="w-full flex justify-end my-4">
+                    <Button onclick={nextStep} variant="link">
+                        Continuar
+                        <MoveRight />
+                    </Button>
+                </div>
+            {/if}
         {/if}
     </div>
 </div>

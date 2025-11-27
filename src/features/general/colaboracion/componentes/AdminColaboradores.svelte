@@ -8,12 +8,16 @@
     import Badge from "$lib/components/ui/badge/badge.svelte";
     import { ColaboracionStore } from "../store.svelte";
     import * as Tooltip from "$lib/components/ui/tooltip/index.js";
+    import { formatDateToISO } from "$lib";
 
     interface Prop {
         colaboraciones: Colaboracion[];
         proyectoId: string;
         currentUserId: string;
         className?: string;
+        verAptoAsesor: boolean;
+        verAptoRevisor: boolean;
+        rolesAdmitidos: ("ASESOR" | "AUTOR" | "REVISOR")[];
     }
 
     let {
@@ -21,6 +25,9 @@
         proyectoId,
         currentUserId,
         className = "",
+        verAptoAsesor,
+        verAptoRevisor,
+        rolesAdmitidos,
     }: Prop = $props();
 
     let colabsNoRechazadas = $derived(
@@ -60,6 +67,8 @@
                     if (col.estado !== "RECHAZADO") return col.usuarioId;
                     return "";
                 })}
+                admitidos={["DOCENTE"]}
+                {rolesAdmitidos}
                 callback={(userSelected, rolSelected) => {
                     ColaboracionStore.invitar({
                         usuarioFrom: currentUserId,
@@ -72,6 +81,8 @@
                         );
                     });
                 }}
+                {verAptoAsesor}
+                {verAptoRevisor}
             />
         </div>
     </div>
@@ -86,7 +97,7 @@
         <div class="p-4 grid gap-2">
             {#each colabsNoRechazadas as colab}
                 <div
-                    class="grid grid-cols-4 gap-4 justify-between items-center"
+                    class="grid grid-cols-5 gap-2 justify-between items-center"
                 >
                     {#if colab.usuario}
                         <div class="flex col-span-2 gap-2 items-center">
@@ -97,12 +108,18 @@
                         </div>
                     {/if}
                     <Badge variant="secondary">{colab.role}</Badge>
-                    <span class="flex justify-end items-center">
+                    <span class="flex justify-end items-center col-span-2">
                         {#if colab.estado === "PENDIENTE"}
-                            <span class="text-xs italic mx-2">
-                                Invitacion pendiente
-                            </span>
+                            <div class="flex flex-col">
+                                <span class="text-xs italic mx-2">
+                                    Invitacion pendiente
+                                </span>
+                                <span class="text-xs italic mx-2">
+                                    Enviado {formatDateToISO(colab.createdAt)}
+                                </span>
+                            </div>
                         {/if}
+
                         {#if colab.role !== "PROPIETARIO"}
                             <Button
                                 variant="destructive"

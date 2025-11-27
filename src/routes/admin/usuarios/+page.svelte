@@ -217,7 +217,7 @@
                 </div>
             </div>
             <Dialog.Footer>
-                <Button onclick={onSave}>Save changes</Button>
+                <Button onclick={onSave}>Guardar</Button>
             </Dialog.Footer>
         </Dialog.Content>
     </Dialog.Root>

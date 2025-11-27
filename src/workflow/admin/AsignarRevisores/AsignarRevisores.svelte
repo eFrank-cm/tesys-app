@@ -32,5 +32,8 @@
         {proyectoId}
         currentUserId={authStore.user.id}
         className="w-[45rem]"
+        verAptoAsesor={false}
+        verAptoRevisor={true}
+        rolesAdmitidos={["REVISOR"]}
     />
 {/if}

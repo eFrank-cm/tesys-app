@@ -78,7 +78,7 @@ export const authStore = $state<AuthStore>({
             console.log(`retornar admin`)
             return '/'
         }
-        else if (tipo === 'NORMAL') {
+        else if (tipo === 'ESTUDIANTE' || tipo === "DOCENTE") {
             return '/proyectos'
         }
         else {

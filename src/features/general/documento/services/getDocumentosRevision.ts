@@ -1,16 +1,17 @@
 import { URL_API } from "$lib/config";
 import { deserializerDocumento, type Documento } from "../model";
 
-export async function getDocumentosWithRevision(proyectoId: string, tipo?: string): Promise<Documento[]> {
-    let url = `${URL_API}/general/documentos/proyecto/${proyectoId}/revisiones`
-    if (tipo) url += `?tipo=${tipo}`
-    console.log(`url: ${url}`)
+export async function getDocumentosWithRevision(proyectoId: string, tipo?: string, creatorId?: string): Promise<Documento[]> {
+    let url = `${URL_API}/general/documentos/proyecto/${proyectoId}/revisiones?`
+    if (tipo) url += `tipo=${tipo}&`
+    if (creatorId) url += `creator_id=${creatorId}&`
+    // console.log(`url: ${url}`)
 
     try {
         const response = await fetch(url)
         if (!response.ok) throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`)
         const result = await response.json()
-        console.log(`result: ${result}`)
+        // console.log(`result: ${result}`)
         const data = result.map((e: any) => deserializerDocumento(e))
         return data
     }

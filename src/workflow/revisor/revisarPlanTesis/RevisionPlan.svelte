@@ -124,16 +124,18 @@
                 {#if revision.estado === "APROBADO"}
                     <div class="text-sm my-2">
                         <DocumentoInput
-                            label="Plan de Tesis Firmado"
-                            tipo="PLAN DE TESIS FIRMADO"
+                            label="Formato de Evaluacion"
+                            tipo="FORMATO DE EVALUACION"
                             proyectoId={plan.proyectoId}
                             readonly={true}
+                            creatorId={revision.createdById}
                         />
                         <DocumentoInput
-                            label="Informe Turniting"
-                            tipo="INFORME TURNITING"
+                            label="Informe"
+                            tipo="INFORME"
                             proyectoId={plan.proyectoId}
                             readonly={true}
+                            creatorId={revision.createdById}
                         />
                     </div>
                     <div>
@@ -157,16 +159,19 @@
         <div class="border-t px-4 py-2">
             <div>
                 {#if revision.estado === "APROBADO"}
+                    <Badge class="my-1">Yo</Badge>
                     <div class="grid gap-2">
                         <DocumentoInput
                             label="Formato de Evaluacion"
                             tipo="FORMATO DE EVALUACION"
                             proyectoId={plan.proyectoId}
+                            creatorId={authStore.user?.id}
                         />
                         <DocumentoInput
                             label="Informe"
                             tipo="INFORME"
                             proyectoId={plan.proyectoId}
+                            creatorId={authStore.user?.id}
                         />
                     </div>
                     <div class="flex items-center mt-2">

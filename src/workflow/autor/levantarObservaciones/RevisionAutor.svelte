@@ -59,7 +59,11 @@
     }
 
     function onDelete(documentoId: string) {
-        DocumentoStore.delete(documentoId).then(() => getPlanesDeTesis());
+        DocumentoStore.delete(documentoId).then(() => {
+            toast.success("Plan de tesis eliminado con éxito");
+            getPlanesDeTesis();
+            fileLoad = null;
+        });
     }
 </script>
 

@@ -14,14 +14,27 @@
         callback: (user: Usuario, rol: string) => void;
         omitirIds?: string[];
         disabledIds?: string[];
+        admitidos?: string[];
+        rolesAdmitidos?: string[];
+        verAptoAsesor?: boolean;
+        verAptoRevisor?: boolean;
     }
 
-    let { callback, omitirIds = [], disabledIds = [] }: Prop = $props();
+    let {
+        callback,
+        omitirIds = [],
+        disabledIds = [],
+        admitidos = ["ESTUDIANTE", "DOCENTE"],
+        rolesAdmitidos = ["ASESOR", "REVISOR", "AUTOR"],
+        verAptoAsesor = true,
+        verAptoRevisor = true,
+    }: Prop = $props();
 
     let userSelected = $state<Usuario | null>(null);
     let search = $state("");
     let usuarios = $state<Usuario[]>([]);
     let rolSelected = $state("");
+    let open = $state(false);
 
     const ROLES = [
         { value: "AUTOR", label: "Autor" },
@@ -48,12 +61,13 @@
 
     onMount(() => {
         UsuarioStore.getAll().then(
-            (data) => (usuarios = data.filter((u) => u.tipo !== "ADMIN") || []),
+            (data) =>
+                (usuarios = data.filter((u) => admitidos.includes(u.tipo))),
         );
     });
 </script>
 
-<Dialog.Root>
+<Dialog.Root bind:open>
     <Dialog.Trigger class={buttonVariants({ variant: "default" })}>
         Agregar
     </Dialog.Trigger>
@@ -85,7 +99,7 @@
                         <Select.Content>
                             <Select.Group>
                                 {#each ROLES as rol (rol.value)}
-                                    {#if (rol.value === "ASESOR" && userSelected.aptoAsesor) || (rol.value === "REVISOR" && userSelected.aptoRevisor) || rol.value === "AUTOR"}
+                                    {#if rolesAdmitidos.includes(rol.value) && ((rol.value === "ASESOR" && userSelected.aptoAsesor) || (rol.value === "REVISOR" && userSelected.aptoRevisor) || rol.value === "AUTOR")}
                                         <Select.Item
                                             value={rol.value}
                                             label={rol.label}
@@ -114,11 +128,15 @@
                 <Input bind:value={search} />
             </div>
             {#if search.trim() !== ""}
-                <div class="rounded-lg text-xs grid grid-cols-3 items-center">
+                <div class={`rounded-lg text-xs grid grid-cols-3 items-center`}>
                     <span class="col-span-2 mx-4">Usuario</span>
                     <div class="col-span-1 flex justify-around">
-                        <span>Apto asesor</span>
-                        <span>Apto revisor</span>
+                        {#if verAptoAsesor}
+                            <span>Apto asesor</span>
+                        {/if}
+                        {#if verAptoRevisor}
+                            <span>Apto revisor</span>
+                        {/if}
                     </div>
                 </div>
                 {#if usuarioFiltered.length > 0}
@@ -134,16 +152,22 @@
                                     email={user.email}
                                     className="border-none col-span-4"
                                 />
-                                <div class="flex justify-around">
-                                    {#if user.aptoAsesor}
-                                        <BadgeCheck />
-                                    {/if}
-                                </div>
-                                <div class="flex justify-around">
-                                    {#if user.aptoRevisor}
-                                        <BadgeCheck />
-                                    {/if}
-                                </div>
+
+                                {#if verAptoAsesor}
+                                    <div class="flex justify-around">
+                                        {#if user.aptoAsesor}
+                                            <BadgeCheck />
+                                        {/if}
+                                    </div>
+                                {/if}
+
+                                {#if verAptoRevisor}
+                                    <div class="flex justify-around">
+                                        {#if user.aptoRevisor}
+                                            <BadgeCheck />
+                                        {/if}
+                                    </div>
+                                {/if}
                             </button>
                         {/each}
                     </div>
@@ -155,7 +179,15 @@
             {/if}
         {/if}
         <Dialog.Footer>
-            <Button variant="secondary">Cancelar</Button>
+            <Button
+                variant="secondary"
+                onclick={() => {
+                    userSelected = null;
+                    rolSelected = "";
+                    search = "";
+                    open = false;
+                }}>Cancelar</Button
+            >
             <Button
                 type="button"
                 onclick={() => {
@@ -164,6 +196,7 @@
                     userSelected = null;
                     rolSelected = "";
                     search = "";
+                    open = false;
                 }}
                 disabled={!(userSelected && rolSelected)}
             >

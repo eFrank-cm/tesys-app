@@ -10,7 +10,7 @@ import { getPreviewPDF } from "./services/getPreviewPDF"
 interface DocumentoStore {
     getPDF: (pdfPath: string) => Promise<string>
     getCarta: (proyectoId: string) => Promise<Documento | null>
-    getDocumentosWithRevision: (proyectoId: string, tipo?: string) => Promise<Documento[]>
+    getDocumentosWithRevision: (proyectoId: string, tipo?: string, creatorId?: string) => Promise<Documento[]>
     create: (body: DocumentoCreate, file?: File) => Promise<Documento>
     edit: (id: string, body: DocumentoUpdate, file?: File) => Promise<Documento>
     delete: (documentoId: string) => Promise<void>
@@ -27,12 +27,14 @@ export const DocumentoStore = $state<DocumentoStore>({
         const data = await getCartaDeAceptacionByProyectoID(proyectoId)
         return data
     },
-    async getDocumentosWithRevision(proyectoId, tipo) {
-        const data = getDocumentosWithRevision(proyectoId, tipo)
+    async getDocumentosWithRevision(proyectoId, tipo, creatorId) {
+        const data = getDocumentosWithRevision(proyectoId, tipo, creatorId)
         return data
     },
 
     async create(body, file) {
+        console.log("store documento")
+        console.log(body)
         const data = await createDocumento(body, file)
         return data
     },

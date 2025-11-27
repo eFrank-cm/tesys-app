@@ -59,7 +59,7 @@
                     />
                 </div>
                 <Button type="submit" class="w-full bg-[#9b192d]">
-                    {authStore.loading ? "Ingresando..." : "Ingresar Sesion"}
+                    {authStore.loading ? "Ingresando..." : "Iniciar sesion"}
                 </Button>
                 <LoginGoogle />
 

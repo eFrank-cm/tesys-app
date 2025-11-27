@@ -8,6 +8,8 @@ interface GoogleLoginRequest {
 export async function verifyGoogleCredentials(payload: GoogleLoginRequest): Promise<LoginResponse | null> {
     const url = `${URL_API}/general/usuarios/api/auth/google`;
 
+    console.log(payload.token)
+
     try {
         const response = await fetch(url, {
             method: "POST",

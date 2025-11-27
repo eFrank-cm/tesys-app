@@ -9,9 +9,7 @@
     import { DocumentoStore } from "../store.svelte";
     import { authStore } from "$lib/auth/store.svelte";
     import { toast } from "svelte-sonner";
-    import { error } from "@sveltejs/kit";
     import { onMount } from "svelte";
-    import Page from "../../../../routes/+page.svelte";
     import X from "@lucide/svelte/icons/x";
     import { formatDateToISO } from "$lib";
 
@@ -20,24 +18,33 @@
         proyectoId: string;
         tipo: string;
         readonly?: boolean;
+        creatorId?: string;
     }
 
-    let { label, proyectoId, tipo, readonly = false }: Prop = $props();
+    let {
+        label,
+        proyectoId,
+        tipo,
+        readonly = false,
+        creatorId = undefined,
+    }: Prop = $props();
     let doc = $state<Documento | null>(null);
     let fileLoad = $state<File | null>(null);
 
     function getDocumento() {
-        DocumentoStore.getDocumentosWithRevision(proyectoId, tipo).then(
-            (data) => {
-                if (data.length === 0) {
-                    doc = null;
-                } else if (data.length === 1) {
-                    doc = data[0];
-                } else {
-                    toast.warning(`${tipo}: ${data.length}`);
-                }
-            },
-        );
+        DocumentoStore.getDocumentosWithRevision(
+            proyectoId,
+            tipo,
+            creatorId,
+        ).then((data) => {
+            if (data.length === 0) {
+                doc = null;
+            } else if (data.length === 1) {
+                doc = data[0];
+            } else {
+                toast.warning(`${tipo}: ${data.length}`);
+            }
+        });
     }
 
     onMount(() => getDocumento());
@@ -48,7 +55,7 @@
             fileLoad = input.files[0];
             DocumentoStore.create(
                 {
-                    tipo: tipo,
+                    tipo,
                     docUrl: "",
                     usuarioId: authStore.user.id,
                     proyectoId: proyectoId,
@@ -66,7 +73,11 @@
     }
 
     function onDelete() {
-        if (doc) DocumentoStore.delete(doc.id).then(() => getDocumento());
+        if (doc)
+            DocumentoStore.delete(doc.id).then(() => {
+                toast.success("Correctamente eliminado.");
+                getDocumento();
+            });
     }
 </script>
 
@@ -98,7 +109,7 @@
         </p>
     {:else}
         <Label
-            for="file-input"
+            for={`input-${label}`}
             class={buttonVariants({
                 variant: "outline",
             })}
@@ -107,7 +118,7 @@
             Subir {label}
         </Label>
         <Input
-            id="file-input"
+            id={`input-${label}`}
             type="file"
             class="hidden"
             accept="application/pdf"

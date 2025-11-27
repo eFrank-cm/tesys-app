@@ -15,6 +15,8 @@ export async function createDocumento(data: DocumentoCreate, file?: File) {
     formData.append("form", JSON.stringify(data))
     if (file) formData.append("file", file)
 
+    console.log(formData)
+
     try {
         const response = await fetch(url, {
             method: "POST",

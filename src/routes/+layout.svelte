@@ -38,7 +38,7 @@
 				Estadisticas
 			</Button>
 
-			{#if authStore.token && authStore.user?.tipo === "NORMAL"}
+			{#if authStore.token && (authStore.user?.tipo === "DOCENTE" || authStore.user?.tipo === "ESTUDIANTE")}
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger>
 						{#snippet child({ props })}
