@@ -18,6 +18,8 @@
         verAptoAsesor: boolean;
         verAptoRevisor: boolean;
         rolesAdmitidos: ("ASESOR" | "AUTOR" | "REVISOR")[];
+        titulo?: string;
+        descripcion?: string;
     }
 
     let {
@@ -28,6 +30,8 @@
         verAptoAsesor,
         verAptoRevisor,
         rolesAdmitidos,
+        titulo = "Administrar colaboradores",
+        descripcion = "Gestiona los colaboradores de tu proyecto: invita, administra roles y mantén el control del equipo.",
     }: Prop = $props();
 
     let colabsNoRechazadas = $derived(
@@ -43,7 +47,7 @@
 
 <div class={className}>
     <div class="flex justify-between mb-2">
-        <h1 class="text-xl font-semibold">Administrar colaboradores</h1>
+        <h1 class="text-xl font-semibold">{titulo}</h1>
         <div class="flex gap-2">
             <Tooltip.Provider>
                 <Tooltip.Root>
@@ -88,10 +92,7 @@
     </div>
 
     <div class="border rounded-lg grid">
-        <div class="p-4 bg-accent text-sm">
-            Gestiona los colaboradores de tu proyecto: invita, administra roles
-            y mantén el control del equipo.
-        </div>
+        <div class="p-4 bg-accent text-sm">{descripcion}</div>
         <hr />
 
         <div class="p-4 grid gap-2">

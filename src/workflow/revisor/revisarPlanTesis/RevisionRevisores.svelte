@@ -17,26 +17,42 @@
             console.log(`data documento con revision`);
             console.log(data);
         });
+
+        DocumentoStore.getDocAprobadoAsesor(proyectoId).then((data) => {
+            console.log("hola");
+            if (data) {
+                console.log("aprobado");
+                console.log(data);
+                planes.push(data);
+            } else {
+                console.log("no hay documentos aprobado");
+            }
+        });
     }
 
     onMount(() => getPlanesDeTesis());
+
+    let planesOrdenados = $derived.by(() =>
+        [...planes].sort(
+            (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime(),
+        ),
+    );
 </script>
 
 <div class="grid gap-4">
     <div class="flex items-center justify-between">
-        <h3 class="text-lg font-semibold">Redactar Plan de Tesis</h3>
+        <h3 class="text-lg font-semibold">Revisar Plan de Tesis</h3>
     </div>
 
-    <p class="text-sm">
-        Espera que suban un plan de tesis para comenzar con la revisión.
-    </p>
-
-    <!-- PLANES -->
-    <div class="flex flex-col-reverse gap-8">
-        {#each planes as plan, index}
+    <!-- PLANES SUBIDOS -->
+    <div class="flex flex-col gap-8">
+        {#each planesOrdenados as plan, index}
             <RevisionPlan
                 {plan}
-                able={index + 1 === planes.length ? true : false}
+                able={index === 0 ? true : false}
+                {proyectoId}
             />
         {/each}
     </div>

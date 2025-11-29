@@ -75,7 +75,7 @@
 </script>
 
 <div class="flex justify-between items-end">
-    <h1 class="font-semibold">Resolucion de Aprobación</h1>
+    <h1 class="font-semibold">Subir Resolucion de Aprobación</h1>
     <!-- <Button variant="link" class="text-blue-600 py-0 border">
         <a href={carta?.docUrl} class="flex gap-1" target="_blank">
             <FileText />

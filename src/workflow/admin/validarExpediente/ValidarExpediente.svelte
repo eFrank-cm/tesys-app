@@ -74,7 +74,7 @@
 </script>
 
 <div class="">
-    <h3 class="text-lg font-semibold">Tramite</h3>
+    <h3 class="text-lg font-semibold">Validar Expediente</h3>
 
     <p class="text-sm my-1">
         Validar el nro de expediente del tramite realizado por los autores.

@@ -2,7 +2,8 @@ import { URL_API } from "$lib/config"
 import { deserializerDocumento } from "../model"
 
 export interface DocumentoUpdate {
-    replace: boolean,
+    replace?: boolean,
+    estado?: string
 }
 
 export async function editDocumento(documentoId: string, data: DocumentoUpdate, file?: File) {

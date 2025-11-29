@@ -3,6 +3,7 @@ import { createDocumento, type DocumentoCreate } from "./services/createDocument
 import { deleteDocumentoById } from "./services/deleteById"
 import { editDocumento, type DocumentoUpdate } from "./services/editDocumento"
 import { getCartaDeAceptacionByProyectoID } from "./services/getCartaAceptacion"
+import { getDocAprobadoPorAsesor } from "./services/getDocAprobadoPorAsesor"
 import { getDocumentoRevisionById } from "./services/getDocumentoRevisiones"
 import { getDocumentosWithRevision } from "./services/getDocumentosRevision"
 import { getPreviewPDF } from "./services/getPreviewPDF"
@@ -15,6 +16,7 @@ interface DocumentoStore {
     edit: (id: string, body: DocumentoUpdate, file?: File) => Promise<Documento>
     delete: (documentoId: string) => Promise<void>
     get: (documentoId: string) => Promise<Documento | null>
+    getDocAprobadoAsesor: (proyectoId: string) => Promise<Documento | null>
 }
 
 export const DocumentoStore = $state<DocumentoStore>({
@@ -51,5 +53,10 @@ export const DocumentoStore = $state<DocumentoStore>({
 
     async delete(documentoId) {
         await deleteDocumentoById(documentoId)
-    }
+    },
+
+    async getDocAprobadoAsesor(proyectoId) {
+        const data = await getDocAprobadoPorAsesor(proyectoId)
+        return data
+    },
 })

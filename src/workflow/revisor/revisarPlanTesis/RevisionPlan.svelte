@@ -14,13 +14,27 @@
     import X from "@lucide/svelte/icons/x";
     import { DocumentoStore } from "../../../features/general/documento/store.svelte";
     import DocumentoInput from "../../../features/general/documento/components/DocumentoInput.svelte";
+    import { onMount } from "svelte";
+    import { ColaboracionStore } from "../../../features/general/colaboracion/store.svelte";
 
     interface Props {
         plan: Documento;
         able: boolean;
+        proyectoId: string;
     }
 
-    let { plan, able }: Props = $props();
+    let { plan, able, proyectoId }: Props = $props();
+
+    let revisoresId = $state<string[]>([]);
+
+    onMount(() => {
+        ColaboracionStore.getByProyectoId(proyectoId).then((data) => {
+            const revisores = data.filter(
+                (col) => col.role === "REVISOR" && col.estado === "ACEPTADO",
+            );
+            revisoresId = [...revisores.map((r) => r.usuarioId)];
+        });
+    });
 
     let revisionesReadonly = $derived(
         plan.revisiones.filter((r) => r.createdById !== authStore.user?.id),
@@ -110,51 +124,83 @@
         </div>
 
         {#each revisionesReadonly as revision (revision.id)}
-            <div class="border-t px-4 py-2">
-                <div>
-                    <Badge>Revisor</Badge>
-                    {#if revision.createdBy}
-                        <UserBagde
-                            username={revision.createdBy.username}
-                            email={revision.createdBy.email}
-                            variant="text"
-                        />
-                    {/if}
-                </div>
-                {#if revision.estado === "APROBADO"}
-                    <div class="text-sm my-2">
-                        <DocumentoInput
-                            label="Formato de Evaluacion"
-                            tipo="FORMATO DE EVALUACION"
-                            proyectoId={plan.proyectoId}
-                            readonly={true}
-                            creatorId={revision.createdById}
-                        />
-                        <DocumentoInput
-                            label="Informe"
-                            tipo="INFORME"
-                            proyectoId={plan.proyectoId}
-                            readonly={true}
-                            creatorId={revision.createdById}
-                        />
-                    </div>
+            {#if revisoresId.includes(revision.createdById)}
+                <div class="border-t px-4 py-2">
                     <div>
-                        <Badge class="bg-green-600 text-secondary">
-                            APROBADO
-                        </Badge>
-                        <span class="text-xs font-semibold">
+                        <Badge>Revisor</Badge>
+                        {#if revision.createdBy}
+                            <UserBagde
+                                username={revision.createdBy.username}
+                                email={revision.createdBy.email}
+                                variant="text"
+                            />
+                        {/if}
+                    </div>
+                    {#if revision.estado === "APROBADO"}
+                        <div class="text-sm my-2">
+                            <DocumentoInput
+                                label="Formato de Evaluacion"
+                                tipo="FORMATO DE EVALUACION"
+                                proyectoId={plan.proyectoId}
+                                readonly={true}
+                                creatorId={revision.createdById}
+                            />
+                            <DocumentoInput
+                                label="Informe"
+                                tipo="INFORME"
+                                proyectoId={plan.proyectoId}
+                                readonly={true}
+                                creatorId={revision.createdById}
+                            />
+                        </div>
+                        <div>
+                            <Badge class="bg-green-600 text-secondary">
+                                APROBADO
+                            </Badge>
+                            <span class="text-xs font-semibold">
+                                {formatDateToISO(revision.updatedAt)}
+                            </span>
+                        </div>
+                    {:else}
+                        <p class="text-sm my-2">
+                            {revision.comentario}
+                        </p>
+                        <span class="text-xs opacity-50">
                             {formatDateToISO(revision.updatedAt)}
                         </span>
+                    {/if}
+                </div>
+            {:else}
+                <div class="border-t px-4 py-2">
+                    <div>
+                        <Badge>Asesor</Badge>
+                        {#if revision.createdBy}
+                            <UserBagde
+                                username={revision.createdBy.username}
+                                email={revision.createdBy.email}
+                                variant="text"
+                            />
+                        {/if}
                     </div>
-                {:else}
-                    <p class="text-sm my-2">
-                        {revision.comentario}
-                    </p>
-                    <span class="text-xs opacity-50">
-                        {formatDateToISO(revision.updatedAt)}
-                    </span>
-                {/if}
-            </div>
+                    {#if revision.estado === "APROBADO"}
+                        <div>
+                            <Badge class="bg-green-600 text-secondary">
+                                APROBADO
+                            </Badge>
+                            <span class="text-xs font-semibold">
+                                {formatDateToISO(revision.updatedAt)}
+                            </span>
+                        </div>
+                    {:else}
+                        <p class="text-sm my-2">
+                            {revision.comentario}
+                        </p>
+                        <span class="text-xs opacity-50">
+                            {formatDateToISO(revision.updatedAt)}
+                        </span>
+                    {/if}
+                </div>
+            {/if}
         {/each}
         <div class="border-t px-4 py-2">
             <div>

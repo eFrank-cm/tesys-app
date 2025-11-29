@@ -24,7 +24,7 @@
 
 <div class="grid gap-4">
     <div class="flex items-center justify-between">
-        <h3 class="text-lg font-semibold">Redactar Plan de Tesis</h3>
+        <h3 class="text-lg font-semibold">Revisar Plan de Tesis</h3>
     </div>
 
     <p class="text-sm">

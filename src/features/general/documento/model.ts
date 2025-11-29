@@ -6,6 +6,7 @@ export interface Documento {
     pdfPath: string
     tipo: string
     docUrl: string
+    estado: string
     createdAt: string
     updatedAt: string
     createdById: string
@@ -20,6 +21,7 @@ export function getEmptyDocumento(): Documento {
         pdfPath: '',
         tipo: '',
         docUrl: '',
+        estado: "",
         createdAt: '',
         updatedAt: '',
         createdById: '',
@@ -35,6 +37,7 @@ export function deserializerDocumento(data: any): Documento {
         pdfPath: data?.pdfPath ?? empty.pdfPath,
         tipo: data?.tipo ?? empty.tipo,
         docUrl: data?.docUrl ?? empty.docUrl,
+        estado: data?.estado ?? empty.estado,
         createdAt: data?.createdAt ?? empty.createdAt,
         updatedAt: data?.updatedAt ?? empty.updatedAt,
         createdById: data?.createdById ?? empty.createdById,

@@ -26,14 +26,18 @@
     });
 </script>
 
-{#if authStore.user}
-    <AdminColaboradores
-        {colaboraciones}
-        {proyectoId}
-        currentUserId={authStore.user.id}
-        className="w-[45rem]"
-        verAptoAsesor={false}
-        verAptoRevisor={true}
-        rolesAdmitidos={["REVISOR"]}
-    />
-{/if}
+<div class="text-xs">
+    {#if authStore.user}
+        <AdminColaboradores
+            {colaboraciones}
+            {proyectoId}
+            currentUserId={authStore.user.id}
+            className="w-[45rem]"
+            verAptoAsesor={false}
+            verAptoRevisor={true}
+            rolesAdmitidos={["REVISOR"]}
+            titulo={"Nombrar Revisores de Plan de Tesis"}
+            descripcion={"Gestiona los colaboradores del proyecto: invita, administra roles y mantén el control del equipo."}
+        />
+    {/if}
+</div>

@@ -42,7 +42,7 @@
             const asesores = data.filter(
                 (col) => col.role === "ASESOR" && col.estado === "ACEPTADO",
             );
-            if (asesores.length > 1) toast.error("Mas de 1 asesor asingado");
+            // if (asesores.length > 1) toast.error("Mas de 1 asesor asingado");
             if (asesores[0] && asesores[0].usuario)
                 asesor = asesores[0].usuario;
         });
@@ -183,49 +183,56 @@
 
                     <!-- REVISION -->
                     {#each plan.revisiones as revision}
-                        <div class="border-t px-4 py-2">
-                            <div>
-                                <Badge>Asesor</Badge>
-                                {#if revision.createdBy}
-                                    <UserBagde
-                                        username={revision.createdBy.username}
-                                        email={revision.createdBy.email}
-                                        variant="text"
-                                    />
-                                {/if}
-                            </div>
-                            {#if revision.estado === "APROBADO"}
-                                <div class="text-sm my-2">
-                                    <DocumentoInput
-                                        label="Plan de Tesis Firmado"
-                                        tipo="PLAN DE TESIS FIRMADO"
-                                        proyectoId={plan.proyectoId}
-                                        readonly={true}
-                                    />
-                                    <DocumentoInput
-                                        label="Informe Turniting"
-                                        tipo="INFORME TURNITING"
-                                        proyectoId={plan.proyectoId}
-                                        readonly={true}
-                                    />
-                                </div>
+                        {#if revision.createdById === asesor?.id}
+                            <div class="border-t px-4 py-2">
                                 <div>
-                                    <Badge class="bg-green-600 text-secondary">
-                                        APROBADO
-                                    </Badge>
-                                    <span class="text-xs font-semibold">
+                                    <Badge>Asesor</Badge>
+                                    {#if revision.createdBy}
+                                        <UserBagde
+                                            username={revision.createdBy
+                                                .username}
+                                            email={revision.createdBy.email}
+                                            variant="text"
+                                        />
+                                    {/if}
+                                </div>
+                                {#if revision.estado === "APROBADO"}
+                                    <div class="text-sm my-2">
+                                        <DocumentoInput
+                                            label="Plan de Tesis Firmado"
+                                            tipo="PLAN DE TESIS FIRMADO"
+                                            proyectoId={plan.proyectoId}
+                                            readonly={true}
+                                        />
+                                        <DocumentoInput
+                                            label="Informe Turniting"
+                                            tipo="INFORME TURNITING"
+                                            proyectoId={plan.proyectoId}
+                                            readonly={true}
+                                        />
+                                    </div>
+                                    <div>
+                                        <Badge
+                                            class="bg-green-600 text-secondary"
+                                        >
+                                            APROBADO
+                                        </Badge>
+                                        <span class="text-xs font-semibold">
+                                            {formatDateToISO(
+                                                revision.updatedAt,
+                                            )}
+                                        </span>
+                                    </div>
+                                {:else}
+                                    <p class="text-sm my-2">
+                                        {revision.comentario}
+                                    </p>
+                                    <span class="text-xs opacity-50">
                                         {formatDateToISO(revision.updatedAt)}
                                     </span>
-                                </div>
-                            {:else}
-                                <p class="text-sm my-2">
-                                    {revision.comentario}
-                                </p>
-                                <span class="text-xs opacity-50">
-                                    {formatDateToISO(revision.updatedAt)}
-                                </span>
-                            {/if}
-                        </div>
+                                {/if}
+                            </div>
+                        {/if}
                     {/each}
                 </div>
             </div>

@@ -25,9 +25,9 @@
         if (plan.revisiones.length === 0) return getRevisionEmpty();
         else if (plan.revisiones.length === 1) return plan.revisiones[0];
         else {
-            toast.error(
-                `Documento: ${plan.id}, con ${plan.revisiones.length} revisiones`,
-            );
+            // toast.error(
+            //     `Documento: ${plan.id}, con ${plan.revisiones.length} revisiones`,
+            // );
             return plan.revisiones[0];
         }
     });

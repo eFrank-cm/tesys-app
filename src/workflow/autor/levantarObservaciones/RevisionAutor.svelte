@@ -21,7 +21,7 @@
     import type { UsuarioMinimal } from "../../../features/general/usuario/model";
     import { ColaboracionStore } from "../../../features/general/colaboracion/store.svelte";
 
-    const proyectoId = page.params.id;
+    const proyectoId = $derived(page.params.id);
     let planes = $state<Documento[]>([]);
     let fileLoad = $state<File | null>(null);
     let revisor1 = $state<UsuarioMinimal | null>(null);
@@ -34,6 +34,17 @@
         ).then((data) => {
             planes = data;
             console.log(data);
+        });
+
+        DocumentoStore.getDocAprobadoAsesor(proyectoId).then((data) => {
+            console.log("hola");
+            if (data) {
+                console.log("aprobado");
+                console.log(data);
+                planes.push(data);
+            } else {
+                console.log("no hay documentos aprobado");
+            }
         });
     }
 
@@ -84,6 +95,14 @@
             fileLoad = null;
         });
     }
+
+    let planesOrdenados = $derived.by(() =>
+        [...planes].sort(
+            (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime(),
+        ),
+    );
 </script>
 
 <div class="grid gap-4">
@@ -143,8 +162,8 @@
     </div>
 
     <!-- PLANES -->
-    <div class="flex flex-col-reverse gap-8">
-        {#each planes as plan, index}
+    <div class="flex flex-col gap-8">
+        {#each planesOrdenados as plan, index}
             <div class="flex items-start gap-2">
                 {#if plan.createdBy}
                     <UserBagde
@@ -168,7 +187,7 @@
                                 Creado {formatDateToISO(plan.createdAt)}
                             </span>
                         </div>
-                        {#if index + 1 === planes.length && plan.revisiones.length === 0}
+                        {#if plan.estado !== "APROBADO POR ASESOR" && index === 0}
                             <div class="px-2">
                                 <Button
                                     variant="link"
@@ -183,51 +202,93 @@
 
                     <!-- REVISION -->
                     {#each plan.revisiones as revision}
-                        <div class="border-t px-4 py-2">
-                            <div>
-                                <Badge>Revisor</Badge>
-                                {#if revision.createdBy}
-                                    <UserBagde
-                                        username={revision.createdBy.username}
-                                        email={revision.createdBy.email}
-                                        variant="text"
-                                    />
-                                {/if}
-                            </div>
-                            {#if revision.estado === "APROBADO"}
-                                <div class="text-sm my-2">
-                                    <DocumentoInput
-                                        label="Formato de Evaluacion"
-                                        tipo="FORMATO DE EVALUACION"
-                                        proyectoId={plan.proyectoId}
-                                        readonly={true}
-                                        creatorId={revision.createdById}
-                                    />
-                                    <DocumentoInput
-                                        label="Informe"
-                                        tipo="INFORME"
-                                        proyectoId={plan.proyectoId}
-                                        readonly={true}
-                                        creatorId={revision.createdById}
-                                    />
-                                </div>
+                        {#if revision.createdById === revisor1?.id || revision.createdById === revisor2?.id}
+                            <div class="border-t px-4 py-2">
                                 <div>
-                                    <Badge class="bg-green-600 text-secondary">
-                                        APROBADO
-                                    </Badge>
-                                    <span class="text-xs font-semibold">
+                                    <Badge>Revisor</Badge>
+                                    {#if revision.createdBy}
+                                        <UserBagde
+                                            username={revision.createdBy
+                                                .username}
+                                            email={revision.createdBy.email}
+                                            variant="text"
+                                        />
+                                    {/if}
+                                </div>
+                                {#if revision.estado === "APROBADO"}
+                                    <div class="text-sm my-2">
+                                        <DocumentoInput
+                                            label="Formato de Evaluacion"
+                                            tipo="FORMATO DE EVALUACION"
+                                            proyectoId={plan.proyectoId}
+                                            readonly={true}
+                                            creatorId={revision.createdById}
+                                        />
+                                        <DocumentoInput
+                                            label="Informe"
+                                            tipo="INFORME"
+                                            proyectoId={plan.proyectoId}
+                                            readonly={true}
+                                            creatorId={revision.createdById}
+                                        />
+                                    </div>
+                                    <div>
+                                        <Badge
+                                            class="bg-green-600 text-secondary"
+                                        >
+                                            APROBADO
+                                        </Badge>
+                                        <span class="text-xs font-semibold">
+                                            {formatDateToISO(
+                                                revision.updatedAt,
+                                            )}
+                                        </span>
+                                    </div>
+                                {:else}
+                                    <p class="text-sm my-2">
+                                        {revision.comentario}
+                                    </p>
+                                    <span class="text-xs opacity-50">
                                         {formatDateToISO(revision.updatedAt)}
                                     </span>
+                                {/if}
+                            </div>
+                        {:else}
+                            <div class="border-t px-4 py-2">
+                                <div>
+                                    <Badge>Asesor</Badge>
+                                    {#if revision.createdBy}
+                                        <UserBagde
+                                            username={revision.createdBy
+                                                .username}
+                                            email={revision.createdBy.email}
+                                            variant="text"
+                                        />
+                                    {/if}
                                 </div>
-                            {:else}
-                                <p class="text-sm my-2">
-                                    {revision.comentario}
-                                </p>
-                                <span class="text-xs opacity-50">
-                                    {formatDateToISO(revision.updatedAt)}
-                                </span>
-                            {/if}
-                        </div>
+                                {#if revision.estado === "APROBADO"}
+                                    <div>
+                                        <Badge
+                                            class="bg-green-600 text-secondary"
+                                        >
+                                            APROBADO
+                                        </Badge>
+                                        <span class="text-xs font-semibold">
+                                            {formatDateToISO(
+                                                revision.updatedAt,
+                                            )}
+                                        </span>
+                                    </div>
+                                {:else}
+                                    <p class="text-sm my-2">
+                                        {revision.comentario}
+                                    </p>
+                                    <span class="text-xs opacity-50">
+                                        {formatDateToISO(revision.updatedAt)}
+                                    </span>
+                                {/if}
+                            </div>
+                        {/if}
                     {/each}
                 </div>
             </div>
