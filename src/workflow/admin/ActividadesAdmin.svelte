@@ -9,6 +9,7 @@
     import ResolucionAceptacion from "./subirResolucionAcep/ResolucionAceptacion.svelte";
     import InstAsignarRevisores from "./AsignarRevisores/InstAsignarRevisores.svelte";
     import AsignarRevisores from "./AsignarRevisores/AsignarRevisores.svelte";
+    import MoveRight from "@lucide/svelte/icons/move-right";
 
     interface Activity {
         value: string;
@@ -44,6 +45,17 @@
         const tmp = activities.find((act) => act.value === value);
         if (!tmp) return;
         ActSelected = tmp;
+    }
+
+    function nextStep() {
+        if (!ActSelected) return;
+        const index = activities.findIndex(
+            (act) => act.value === ActSelected?.value,
+        );
+
+        if (index === -1 || index >= activities.length) return;
+
+        ActSelected = activities[index + 1];
     }
 </script>
 
@@ -85,6 +97,14 @@
     <div class="w-7/12">
         {#if ActSelected}
             <ActSelected.playground />
+            {#if ActSelected.value !== activities.at(-1)?.value}
+                <div class="w-full flex justify-end my-4">
+                    <Button onclick={nextStep} variant="link">
+                        Continuar
+                        <MoveRight />
+                    </Button>
+                </div>
+            {/if}
         {/if}
     </div>
 </div>

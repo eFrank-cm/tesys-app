@@ -4,6 +4,7 @@
     import XIcon from "@lucide/svelte/icons/x";
     import Label from "$lib/components/ui/label/label.svelte";
     import Pencil from "@lucide/svelte/icons/pencil";
+    import FileCheck from "@lucide/svelte/icons/file-check";
     import Check from "@lucide/svelte/icons/check";
     import * as Tabs from "$lib/components/ui/tabs/index.js";
     import FileText from "@lucide/svelte/icons/file-text";
@@ -11,10 +12,7 @@
     import { page } from "$app/state";
     import { toast } from "svelte-sonner";
     import { onMount } from "svelte";
-    import {
-        getTramiteEmpty,
-        type Tramite,
-    } from "../../../features/planTesis/tramite/model";
+    import { getTramiteEmpty } from "../../../features/planTesis/tramite/model";
 
     let proyectoId = $derived(page.params.id);
     let disabled = $state(true);
@@ -159,7 +157,7 @@
                     </div>
                 </Tabs.Content>
                 <Tabs.Content value="confirmar">
-                    <div class="text-sm flex items-center gap-1 px-4">
+                    <div class="text-xs flex items-center gap-1 px-4">
                         Haga clic en <strong>Guardar</strong> y registe el
                         numero de
                         <div class="flex gap-2">
@@ -217,5 +215,17 @@
                 </Tabs.Content>
             </Tabs.Root>
         </div>
+        {#if tramite.estado === "VALIDADO"}
+            <div
+                class="bg-green-200 rounded-lg border text-green-600 border-green-600 px-4 py-2 flex items-center gap-2"
+            >
+                <FileCheck />
+                <p>Tramite validado</p>
+            </div>
+        {:else if tramite.expediente !== ""}
+            <p class="italic opacity-50 text-sm">
+                Esperando validacion del tramite
+            </p>
+        {/if}
     </div>
 </div>

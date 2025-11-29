@@ -5,6 +5,7 @@
     import UserBagde from "$lib/auth/componentes/UserBagde.svelte";
     import FileText from "@lucide/svelte/icons/file-text";
     import FilePlus2 from "@lucide/svelte/icons/file-plus-2";
+    import UserCheck from "@lucide/svelte/icons/user-check";
     import Trash from "@lucide/svelte/icons/trash";
     import Badge from "$lib/components/ui/badge/badge.svelte";
     import Input from "$lib/components/ui/input/input.svelte";
@@ -17,10 +18,14 @@
     import { formatDateToISO } from "$lib";
     import DocumentoInput from "../../../features/general/documento/components/DocumentoInput.svelte";
     import { toast } from "svelte-sonner";
+    import { ColaboracionStore } from "../../../features/general/colaboracion/store.svelte";
+    import type { UsuarioMinimal } from "../../../features/general/usuario/model";
 
     const proyectoId = page.params.id;
     let planes = $state<Documento[]>([]);
     let fileLoad = $state<File | null>(null);
+    let asesor = $state<UsuarioMinimal | null>(null);
+    let carta = $state<Documento | null>(null);
 
     function getPlanesDeTesis() {
         DocumentoStore.getDocumentosWithRevision(
@@ -31,7 +36,21 @@
         });
     }
 
-    onMount(() => getPlanesDeTesis());
+    onMount(() => {
+        getPlanesDeTesis();
+        ColaboracionStore.getByProyectoId(proyectoId).then((data) => {
+            const asesores = data.filter(
+                (col) => col.role === "ASESOR" && col.estado === "ACEPTADO",
+            );
+            if (asesores.length > 1) toast.error("Mas de 1 asesor asingado");
+            if (asesores[0] && asesores[0].usuario)
+                asesor = asesores[0].usuario;
+        });
+
+        DocumentoStore.getCarta(proyectoId).then((data) => {
+            if (data) carta = data;
+        });
+    });
 
     function handleChange(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -66,30 +85,62 @@
 </script>
 
 <div class="grid gap-4">
-    <div class="flex items-center justify-between">
-        <h3 class="text-lg font-semibold">Revisar Plan de Tesis</h3>
-        <div class="flex items-center gap-4">
-            <Label
-                for="file-input"
-                class={buttonVariants({ variant: "outline" })}
-            >
-                <FilePlus2 />
-                Subir archivo
-            </Label>
-            <Input
-                id="file-input"
-                type="file"
-                class="hidden"
-                accept="application/pdf"
-                onchange={handleChange}
-            />
-        </div>
+    <div>
+        <h3 class="text-lg font-semibold">Revision del ASESOR</h3>
+        <p class="text-sm">
+            Sube tu plan de tesis y espera la revisión del asesor para enviar
+            una nueva versión si es necesario.
+        </p>
     </div>
 
-    <p class="text-sm">
-        Sube tu plan de tesis y espera la revisión del asesor para enviar una
-        nueva versión si es necesario.
-    </p>
+    {#if asesor}
+        <div
+            class="bg-green-200 rounded-lg border border-green-600 px-4 py-2 flex items-center gap-2"
+        >
+            <div>
+                <UserCheck class="text-green-600" />
+            </div>
+            <div class="text-md flex justify-between w-full">
+                <p>
+                    Asesor: <span class="font-semibold">
+                        <UserBagde
+                            variant="text"
+                            email={asesor.email}
+                            username={asesor.username}
+                        />
+                    </span>
+                </p>
+                <div>
+                    {#if carta?.pdfPath}
+                        <a href={`/pdf/${carta.pdfPath}`} target="_blank">
+                            <Button variant="link">
+                                <FileText />
+                                Carta de Aceptacion
+                            </Button>
+                        </a>
+                    {:else}
+                        <p class="italic px-4 opacity-50 text-sm">
+                            El asesor aun no subio la Carta de Aceptacion
+                        </p>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    {/if}
+
+    <div class="flex items-center gap-4">
+        <Label for="file-input" class={buttonVariants({ variant: "outline" })}>
+            <FilePlus2 />
+            Subir Plan de Tesis
+        </Label>
+        <Input
+            id="file-input"
+            type="file"
+            class="hidden"
+            accept="application/pdf"
+            onchange={handleChange}
+        />
+    </div>
 
     <!-- PLANES -->
     <div class="flex flex-col-reverse gap-8">

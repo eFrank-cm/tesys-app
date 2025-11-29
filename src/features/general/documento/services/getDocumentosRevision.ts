@@ -5,7 +5,7 @@ export async function getDocumentosWithRevision(proyectoId: string, tipo?: strin
     let url = `${URL_API}/general/documentos/proyecto/${proyectoId}/revisiones?`
     if (tipo) url += `tipo=${tipo}&`
     if (creatorId) url += `creator_id=${creatorId}&`
-    // console.log(`url: ${url}`)
+    console.log(url)
 
     try {
         const response = await fetch(url)

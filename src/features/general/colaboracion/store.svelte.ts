@@ -6,11 +6,11 @@ import { getColaboracionesByUsuarioId } from "./services/getColaboracionesByUsua
 import { respondInvitation, type ColaboracionRespond } from "./services/respondInvitacion";
 
 interface ColaboracionStore {
-    getByUsuarioId: (usuarioId: string) => Promise<Colaboracion[]>
-    getByProyectoId: (proyectoId: string) => Promise<Colaboracion[]>
-    invitar: (body: ColaboracionCreate) => Promise<Colaboracion>
-    responderInvitation: (colaboracionId: string, body: ColaboracionRespond) => Promise<Colaboracion>
-    delete: (id: string) => Promise<void>
+    getByUsuarioId(usuarioId: string): Promise<Colaboracion[]>
+    getByProyectoId(proyectoId: string): Promise<Colaboracion[]>
+    invitar(body: ColaboracionCreate): Promise<Colaboracion>
+    responderInvitation(colaboracionId: string, body: ColaboracionRespond): Promise<Colaboracion>
+    delete(id: string): Promise<void>
     getAll(): Promise<Colaboracion[]>
 }
 

@@ -17,10 +17,15 @@
     import { formatDateToISO } from "$lib";
     import DocumentoInput from "../../../features/general/documento/components/DocumentoInput.svelte";
     import { toast } from "svelte-sonner";
+    import UserCheck from "@lucide/svelte/icons/user-check";
+    import type { UsuarioMinimal } from "../../../features/general/usuario/model";
+    import { ColaboracionStore } from "../../../features/general/colaboracion/store.svelte";
 
     const proyectoId = page.params.id;
     let planes = $state<Documento[]>([]);
     let fileLoad = $state<File | null>(null);
+    let revisor1 = $state<UsuarioMinimal | null>(null);
+    let revisor2 = $state<UsuarioMinimal | null>(null);
 
     function getPlanesDeTesis() {
         DocumentoStore.getDocumentosWithRevision(
@@ -28,10 +33,24 @@
             "PLAN DE TESIS PARA REVISOR",
         ).then((data) => {
             planes = data;
+            console.log(data);
         });
     }
 
-    onMount(() => getPlanesDeTesis());
+    onMount(() => {
+        getPlanesDeTesis();
+
+        ColaboracionStore.getByProyectoId(proyectoId).then((data) => {
+            const asesores = data.filter(
+                (col) => col.role === "REVISOR" && col.estado === "ACEPTADO",
+            );
+            if (asesores.length > 2) toast.error("Mas de 2 asesor asingado");
+            if (asesores[0] && asesores[0].usuario)
+                revisor1 = asesores[0].usuario;
+            if (asesores[1] && asesores[1].usuario)
+                revisor2 = asesores[1].usuario;
+        });
+    });
 
     function handleChange(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -68,30 +87,60 @@
 </script>
 
 <div class="grid gap-4">
-    <div class="flex items-center justify-between">
-        <h3 class="text-lg font-semibold">Redactar Plan de Tesis</h3>
-        <div class="flex items-center gap-4">
-            <Label
-                for="file-input"
-                class={buttonVariants({ variant: "outline" })}
-            >
-                <FilePlus2 />
-                Subir archivo
-            </Label>
-            <Input
-                id="file-input"
-                type="file"
-                class="hidden"
-                accept="application/pdf"
-                onchange={handleChange}
-            />
-        </div>
+    <div class="">
+        <h3 class="text-lg font-semibold">Revision de los REVISORES</h3>
+        <p class="text-sm">
+            Sube tu plan de tesis y espera la revisión del asesor para enviar
+            una nueva versión si es necesario.
+        </p>
     </div>
 
-    <p class="text-sm">
-        Sube tu plan de tesis y espera la revisión del asesor para enviar una
-        nueva versión si es necesario.
-    </p>
+    {#if revisor1 || revisor2}
+        <div
+            class="bg-green-200 rounded-lg border border-green-600 px-4 py-2 flex items-center gap-2"
+        >
+            <div>
+                <UserCheck class="text-green-600" />
+            </div>
+            <div class="w-full">
+                <div class="text-md flex justify-between items-center">
+                    <p>
+                        Revisores:
+                        {#if revisor1}
+                            <span class="font-semibold">
+                                <UserBagde
+                                    variant="text"
+                                    email={revisor1.email}
+                                    username={revisor1.username}
+                                />
+                            </span>
+                        {/if}
+                        {#if revisor2}
+                            <UserBagde
+                                variant="text"
+                                email={revisor2.email}
+                                username={revisor2.username}
+                            />
+                        {/if}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {/if}
+
+    <div class="flex items-center gap-4">
+        <Label for="file-input" class={buttonVariants({ variant: "outline" })}>
+            <FilePlus2 />
+            Subir Plan de Tesis
+        </Label>
+        <Input
+            id="file-input"
+            type="file"
+            class="hidden"
+            accept="application/pdf"
+            onchange={handleChange}
+        />
+    </div>
 
     <!-- PLANES -->
     <div class="flex flex-col-reverse gap-8">
@@ -152,12 +201,14 @@
                                         tipo="FORMATO DE EVALUACION"
                                         proyectoId={plan.proyectoId}
                                         readonly={true}
+                                        creatorId={revision.createdById}
                                     />
                                     <DocumentoInput
                                         label="Informe"
                                         tipo="INFORME"
                                         proyectoId={plan.proyectoId}
                                         readonly={true}
+                                        creatorId={revision.createdById}
                                     />
                                 </div>
                                 <div>

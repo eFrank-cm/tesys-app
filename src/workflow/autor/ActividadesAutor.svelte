@@ -31,7 +31,7 @@
         },
         {
             value: "revisar-plan-tesis",
-            title: "2. Revisar Plan de Tesis",
+            title: "2. Revision del ASESOR",
             instructions: InstRedactarPlanTesis,
             playground: RedactarPlanTesis,
         },
@@ -43,7 +43,7 @@
         },
         {
             value: "levantar-observaciones",
-            title: "4. Levantar observacion de revisores",
+            title: "4. Revision de los REVISORES",
             instructions: InstLevandarObs,
             playground: RevisionAutor,
         },
@@ -63,9 +63,7 @@
         ActSelected = tmp;
     }
 
-    function seCompletoActividad() {
-        
-    }
+    function seCompletoActividad() {}
 
     function nextStep() {
         if (!ActSelected) return;

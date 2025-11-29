@@ -108,13 +108,18 @@
 
         <hr class="mb-2" />
         <Tabs.Content value="actividades">
-            {#if rol === "PROPIETARIO" || rol === "AUTOR"}
-                <ActividadesAutor />
-            {:else if rol === "ASESOR"}
-                <ActividadesAsesor />
-            {:else if rol === "REVISOR"}
-                <ActividadesRevisor />
-            {/if}
+            <div class="">
+                <h3 class="font-bold">PLAN DE TESIS</h3>
+            </div>
+            <div class="ml-4">
+                {#if rol === "PROPIETARIO" || rol === "AUTOR"}
+                    <ActividadesAutor />
+                {:else if rol === "ASESOR"}
+                    <ActividadesAsesor />
+                {:else if rol === "REVISOR"}
+                    <ActividadesRevisor />
+                {/if}
+            </div>
         </Tabs.Content>
         <Tabs.Content value="resumen">
             <Tabs.Root value="propuesta">
@@ -155,20 +160,25 @@
                     {proyectoId}
                     currentUserId={authStore.user.id}
                     className="w-[60rem]"
+                    verAptoAsesor={true}
+                    verAptoRevisor={false}
+                    rolesAdmitidos={["ASESOR", "AUTOR"]}
                 />
             {/if}
         </Tabs.Content>
         <Tabs.Content value="asuntos">asuntos</Tabs.Content>
         <Tabs.Content value="ajustes">
-            <Button
-                variant="destructive"
-                onclick={() => {
-                    ProyectoStore.delete(proyecto.id);
-                    goto("/proyectos");
-                }}
-            >
-                Eliminar Proyecto
-            </Button>
+            {#if rol === "PROPIETARIO" || rol === "AUTOR"}
+                <Button
+                    variant="destructive"
+                    onclick={() => {
+                        ProyectoStore.delete(proyecto.id);
+                        goto("/proyectos");
+                    }}
+                >
+                    Eliminar Proyecto
+                </Button>
+            {/if}
         </Tabs.Content>
     </Tabs.Root>
 </div>
