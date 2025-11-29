@@ -67,7 +67,7 @@
                     if (col.estado !== "RECHAZADO") return col.usuarioId;
                     return "";
                 })}
-                admitidos={["DOCENTE"]}
+                admitidos={["DOCENTE", "ESTUDIANTE"]}
                 {rolesAdmitidos}
                 callback={(userSelected, rolSelected) => {
                     ColaboracionStore.invitar({

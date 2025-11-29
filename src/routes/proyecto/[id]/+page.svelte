@@ -154,7 +154,7 @@
         </Tabs.Content>
         <Tabs.Content value="documentos">documentos</Tabs.Content>
         <Tabs.Content value="colaboradores" class="flex justify-center">
-            {#if authStore.user}
+            {#if authStore.user && rol === "PROPIETARIO"}
                 <AdminColaboradores
                     {colaboraciones}
                     {proyectoId}
@@ -168,7 +168,7 @@
         </Tabs.Content>
         <Tabs.Content value="asuntos">asuntos</Tabs.Content>
         <Tabs.Content value="ajustes">
-            {#if rol === "PROPIETARIO" || rol === "AUTOR"}
+            {#if rol === "PROPIETARIO"}
                 <Button
                     variant="destructive"
                     onclick={() => {
