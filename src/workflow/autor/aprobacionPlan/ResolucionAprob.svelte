@@ -30,6 +30,11 @@
 <br />
 
 {#if resolucion && resolucion.pdfPath}
+    <div
+        class="bg-green-200 rounded-lg border text-green-600 border-green-600 px-4 py-2 flex items-center gap-2 my-2"
+    >
+        Felicidades!!... Tu Plan de Tesis fue APROBADO.
+    </div>
     <DocumentoPDF pdfPath={resolucion.pdfPath} />
 {:else}
     <p class="text-sm my-1 text-balance">
