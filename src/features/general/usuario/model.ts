@@ -15,6 +15,8 @@ export interface Usuario extends UsuarioMinimal {
     fechaNacimiento: string
     genero: "M" | "F"
     celular: string
+    dni: string
+    codigo: string
     aptoAsesor: boolean
     aptoRevisor: boolean
 }
@@ -34,6 +36,8 @@ export function getEmptyUsuario(): Usuario {
         fechaNacimiento: '',
         genero: 'M',
         celular: '',
+        dni: "",
+        codigo: "",
         aptoAsesor: false,
         aptoRevisor: false
     }
@@ -56,7 +60,9 @@ export function deserializeUsuario(data: any): Usuario {
         genero: data?.genero ?? empty.genero,
         celular: data?.celular ?? empty.celular,
         aptoAsesor: data?.aptoAsesor ?? empty.aptoAsesor,
-        aptoRevisor: data?.aptoRevisor ?? empty.aptoRevisor
+        aptoRevisor: data?.aptoRevisor ?? empty.aptoRevisor,
+        dni: data?.dni ?? empty.dni,
+        codigo: data?.codigo ?? empty.codigo
     }
 }
 

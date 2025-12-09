@@ -15,11 +15,14 @@ export interface UsuarioUpdate {
     celular?: string | null;
     aptoAsesor?: boolean;
     aptoRevisor?: boolean;
+    dni?: string
+    codigo?: string
 }
 
 
 export async function editUsuarioById(usuarioId: string, payload: UsuarioUpdate): Promise<Usuario> {
     const url = `${URL_API}/usuarios/${usuarioId}`;
+    console.log(payload)
 
     try {
         const response = await fetch(url, {
