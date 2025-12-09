@@ -8,7 +8,7 @@ export interface PropuestaUpdate {
 }
 
 export async function editPropuestaById(propuestaId: string, payload: PropuestaUpdate): Promise<Propuesta> {
-    const url = `${URL_API}/plan-tesis/propuestas/${propuestaId}`
+    const url = `${URL_API}/propuestas/${propuestaId}`
 
     try {
         const response = await fetch(url, {

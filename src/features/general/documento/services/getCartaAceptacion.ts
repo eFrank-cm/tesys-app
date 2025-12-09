@@ -2,7 +2,7 @@ import { URL_API } from "$lib/config";
 import { deserializerDocumento } from "../model";
 
 export async function getCartaDeAceptacionByProyectoID(proyectoId: string) {
-    const url = `${URL_API}/general/documentos/proyecto/carta-aceptacion/${proyectoId}`
+    const url = `${URL_API}/documentos/proyecto/carta-aceptacion/${proyectoId}`
 
     try {
         const response = await fetch(url)

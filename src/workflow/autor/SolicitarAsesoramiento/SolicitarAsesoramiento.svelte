@@ -16,14 +16,21 @@
     let carta = $state<Documento | null>(null);
 
     onMount(() => {
+        refresh();
+    });
+
+    function refresh() {
         ColaboracionStore.getByProyectoId(proyectoId).then((data) => {
             colaboraciones = data;
         });
-
-        DocumentoStore.getCarta(proyectoId).then((data) => {
-            if (data) carta = data;
+        DocumentoStore.getDocumentosWithRevision(
+            proyectoId,
+            "CARTA DE ACEPTACION",
+        ).then((data) => {
+            carta = data[0] ?? null;
+            console.log(data);
         });
-    });
+    }
 </script>
 
 {#if authStore.user}

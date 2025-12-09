@@ -2,7 +2,7 @@ import { URL_API } from "$lib/config";
 import { deserializerTramite, type Tramite } from "../model";
 
 export async function getTramitesByProyecto(proyectoId: string, tipo?: string): Promise<Tramite[]> {
-    let url = `${URL_API}/plan-tesis/tramites/proyecto/${proyectoId}`
+    let url = `${URL_API}/tramites/proyecto/${proyectoId}`
     if (tipo) url += `?tipo=${tipo}`
 
     try {

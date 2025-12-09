@@ -30,7 +30,11 @@
             proyectoId,
             "PLAN DE TESIS",
         ).then((data) => {
-            planes = data;
+            planes = data.sort(
+                (a, b) =>
+                    new Date(b.createdAt).getTime() -
+                    new Date(a.createdAt).getTime(),
+            );
             console.log(`data documento con revision`);
             console.log(data);
         });
@@ -49,7 +53,7 @@
     </p>
 
     <!-- PLANES -->
-    <div class="flex flex-col-reverse gap-8">
+    <div class="flex flex-col gap-8">
         {#each planes as plan, index}
             <RevisionPlan
                 {plan}

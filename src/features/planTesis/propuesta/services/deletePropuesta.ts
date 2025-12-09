@@ -1,7 +1,7 @@
 import { URL_API } from "$lib/config";
 
 export async function deletePropuesta(propuestaId: string): Promise<void> {
-    const url = `${URL_API}/plan-tesis/propuestas/${propuestaId}`
+    const url = `${URL_API}/propuestas/${propuestaId}`
 
     try {
         const response = await fetch(url, {

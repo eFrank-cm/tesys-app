@@ -1,7 +1,7 @@
 import { URL_API } from "$lib/config";
 
 export async function deleteDocumentoById(documentoId: string): Promise<void> {
-    const url = `${URL_API}/general/documentos/${documentoId}`
+    const url = `${URL_API}/documentos/${documentoId}`
 
     try {
         const response = await fetch(url, {

@@ -26,8 +26,9 @@
                 titulo,
                 resumen,
                 proyectoId: nuevoProyecto.id,
+                usuarioId: authStore.user.id,
             });
-            toast.success("Proyecto creado")
+            toast.success("Proyecto creado");
             goto(`/proyecto/${nuevoProyecto.id}`);
         } catch (e) {
             toast.error(`Error al guardar`);

@@ -2,6 +2,8 @@ import type { Documento } from "./model"
 import { createDocumento, type DocumentoCreate } from "./services/createDocumento"
 import { deleteDocumentoById } from "./services/deleteById"
 import { editDocumento, type DocumentoUpdate } from "./services/editDocumento"
+import { getByProyectoIdAndTipo } from "./services/getByProyectoIdAndTipo"
+import { getByProyectoIdAndTipoList } from "./services/getByProyectoIdAndTipoList"
 import { getCartaDeAceptacionByProyectoID } from "./services/getCartaAceptacion"
 import { getDocAprobadoPorAsesor } from "./services/getDocAprobadoPorAsesor"
 import { getDocumentoRevisionById } from "./services/getDocumentoRevisiones"
@@ -17,6 +19,8 @@ interface DocumentoStore {
     delete: (documentoId: string) => Promise<void>
     get: (documentoId: string) => Promise<Documento | null>
     getDocAprobadoAsesor: (proyectoId: string) => Promise<Documento | null>
+    getByProyectoTipo: (proyectoId: string, tipo: string) => Promise<Documento | null>
+    getByProyectoTipoList: (proyectoId: string, tipo: string) => Promise<Documento[]>
 }
 
 export const DocumentoStore = $state<DocumentoStore>({
@@ -57,6 +61,16 @@ export const DocumentoStore = $state<DocumentoStore>({
 
     async getDocAprobadoAsesor(proyectoId) {
         const data = await getDocAprobadoPorAsesor(proyectoId)
+        return data
+    },
+
+    async getByProyectoTipo(proyectoId, tipo) {
+        const data = await getByProyectoIdAndTipo(proyectoId, tipo)
+        return data
+    },
+
+    async getByProyectoTipoList(proyectoId, tipo) {
+        const data = await getByProyectoIdAndTipoList(proyectoId, tipo)
         return data
     },
 })

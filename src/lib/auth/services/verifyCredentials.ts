@@ -7,7 +7,7 @@ interface LoginRequest {
 }
 
 export async function verifyCredentials(payload: LoginRequest): Promise<LoginResponse | null> {
-    const url = `${URL_API}/general/usuarios/auth`;
+    const url = `${URL_API}/usuarios/auth`;
 
     try {
         const response = await fetch(url, {

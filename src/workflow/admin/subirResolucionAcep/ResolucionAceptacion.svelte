@@ -13,11 +13,16 @@
     import Label from "$lib/components/ui/label/label.svelte";
     import { toast } from "svelte-sonner";
     import { authStore } from "$lib/auth/store.svelte";
+    import RefreshCcw from "@lucide/svelte/icons/refresh-ccw";
+    import LoadingIcon from "$lib/components/custom/LoadingIcon.svelte";
+    import { cn } from "$lib/utils";
 
     const proyectoId = $derived(page.params.id);
 
     let resolucion = $state<Documento | null>(null);
     let fileLoad = $state<File | null>(null);
+    let resolucionPlantilla = $state<Documento | null>(null);
+    let loadingPlantilla = $state(false);
 
     function getDocumento() {
         DocumentoStore.getDocumentosWithRevision(
@@ -28,8 +33,18 @@
         });
     }
 
+    function getPlantilla() {
+        DocumentoStore.getDocumentosWithRevision(
+            proyectoId,
+            "PLANTILLA - RESOLUCION",
+        ).then((data) => {
+            resolucionPlantilla = data[0] ?? null;
+        });
+    }
+
     onMount(() => {
         getDocumento();
+        getPlantilla();
     });
 
     function handleChange(event: Event) {
@@ -72,16 +87,65 @@
                 });
         }
     }
+
+    function crearPlantilla() {
+        loadingPlantilla = true;
+        DocumentoStore.create({
+            tipo: "PLANTILLA - RESOLUCION",
+            docUrl: "",
+            proyectoId: proyectoId ?? "",
+            usuarioId: authStore.user?.id ?? "",
+        })
+            .then(() => {
+                getPlantilla();
+            })
+            .catch((error) => {
+                toast.success(
+                    `Error al crear la plantilla de resolucion ${error}`,
+                );
+            })
+            .finally(() => {
+                loadingPlantilla = false;
+            });
+    }
 </script>
 
 <div class="flex justify-between items-end">
     <h1 class="font-semibold">Subir Resolucion de Aprobación</h1>
-    <!-- <Button variant="link" class="text-blue-600 py-0 border">
-        <a href={carta?.docUrl} class="flex gap-1" target="_blank">
-            <FileText />
-            Plantilla - Carta de Aceptacion de Asesoramiento
-        </a>
-    </Button> -->
+    <div>
+        {#if resolucionPlantilla}
+            <Button variant="link" class="text-blue-600 py-0 border">
+                <a
+                    href={resolucionPlantilla?.docUrl}
+                    class="flex gap-1 items-center"
+                    target="_blank"
+                >
+                    <FileText />
+                    Plantilla - Resolucion
+                </a>
+            </Button>
+            <Button variant="outline" class="text-blue-600 py-0 border hidden">
+                <RefreshCcw />
+            </Button>
+        {:else}
+            <Button
+                variant="outline"
+                disabled={loadingPlantilla}
+                onclick={crearPlantilla}
+            >
+                <span
+                    class={cn(
+                        "flex items-center",
+                        !loadingPlantilla ? "hidden" : "",
+                    )}
+                >
+                    <LoadingIcon />
+                </span>
+                Crear Plantilla
+            </Button>
+        {/if}
+    </div>
+
     <Label for="fileInput" class={buttonVariants({ variant: "default" })}>
         <Plus />
         Subir

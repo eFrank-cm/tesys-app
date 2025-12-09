@@ -2,7 +2,7 @@ import { URL_API } from "$lib/config";
 import { deserializerDocumento, type Documento } from "../model";
 
 export async function getDocumentoRevisionById(documentoId: string): Promise<Documento | null> {
-    const url = `${URL_API}/general/documentos/${documentoId}`
+    const url = `${URL_API}/documentos/${documentoId}`
 
     try {
         const response = await fetch(url)

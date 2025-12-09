@@ -6,7 +6,7 @@ interface GoogleLoginRequest {
 }
 
 export async function verifyGoogleCredentials(payload: GoogleLoginRequest): Promise<LoginResponse | null> {
-    const url = `${URL_API}/general/usuarios/api/auth/google`;
+    const url = `${URL_API}/usuarios/api/auth/google`;
 
     console.log(payload.token)
 

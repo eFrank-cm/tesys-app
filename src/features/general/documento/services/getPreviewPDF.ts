@@ -1,7 +1,7 @@
 import { URL_API } from "$lib/config";
 
 export async function getPreviewPDF(pdfPath: string) {
-    const url = `${URL_API}/general/documentos/pdf/${pdfPath}`
+    const url = `${URL_API}/documentos/pdf/${pdfPath}`
 
     try {
         const response = await fetch(url)

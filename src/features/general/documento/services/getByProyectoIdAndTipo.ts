@@ -1,8 +1,8 @@
 import { URL_API } from "$lib/config";
-import { deserializerTramite, type Tramite } from "../model";
+import { deserializerDocumento, type Documento } from "../model";
 
-export async function getTramiteById(tramiteId: string): Promise<Tramite | null> {
-    const url = `${URL_API}/tramites/${tramiteId}`
+export async function getByProyectoIdAndTipo(proyectoId: string, tipo: string): Promise<Documento | null> {
+    const url = `${URL_API}/documentos/${proyectoId}/${tipo}`
 
     try {
         const response = await fetch(url)
@@ -12,10 +12,9 @@ export async function getTramiteById(tramiteId: string): Promise<Tramite | null>
             throw new Error(`Error del servidor: ${response.status} - ${errorText}`);
         }
         const result = await response.json();
-        const data = deserializerTramite(result)
+        const data = deserializerDocumento(result)
         return data
-    }
-    catch (error) {
+    } catch (error) {
         throw new Error(error instanceof Error ? error.message : "Error desconocido");
     }
 }

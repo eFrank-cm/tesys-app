@@ -8,7 +8,7 @@ export interface RevisionUpdate {
 }
 
 export async function editRevisionById(revisionId: string, payload: RevisionUpdate) {
-    const url = `${URL_API}/plan-tesis/revisiones/${revisionId}`
+    const url = `${URL_API}/revisiones/${revisionId}`
     try {
         const res = await fetch(url, {
             method: 'PATCH',

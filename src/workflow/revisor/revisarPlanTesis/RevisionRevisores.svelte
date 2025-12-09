@@ -4,11 +4,30 @@
     import type { Documento } from "../../../features/general/documento/model";
     import { onMount } from "svelte";
     import RevisionPlan from "./RevisionPlan.svelte";
+    import Button from "$lib/components/ui/button/button.svelte";
+    import RefreshCcw from "@lucide/svelte/icons/refresh-ccw";
+    import FileText from "@lucide/svelte/icons/file-text";
 
     const proyectoId = page.params.id;
     let planes = $state<Documento[]>([]);
+    let formatoPlantilla = $state<Documento | null>(null);
+    let InformePlantilla = $state<Documento | null>(null);
 
     function getPlanesDeTesis() {
+        DocumentoStore.getDocumentosWithRevision(
+            proyectoId,
+            "PLANTILLA - FORMATO DE EVALUACION",
+        ).then((data) => {
+            formatoPlantilla = data[0] ?? null;
+        });
+
+        DocumentoStore.getDocumentosWithRevision(
+            proyectoId,
+            "PLANTILLA - INFORME PROVEIDO",
+        ).then((data) => {
+            InformePlantilla = data[0] ?? null;
+        });
+
         DocumentoStore.getDocumentosWithRevision(
             proyectoId,
             "PLAN DE TESIS PARA REVISOR",
@@ -44,6 +63,38 @@
 <div class="grid gap-4">
     <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold">Revisar Plan de Tesis</h3>
+    </div>
+    <div class="flex gap-2">
+        <div>
+            <Button variant="link" class="text-blue-600 py-0 border">
+                <a
+                    href={formatoPlantilla?.docUrl}
+                    class="flex gap-1 items-center"
+                    target="_blank"
+                >
+                    <FileText />
+                    Formato de Evaluacion
+                </a>
+            </Button>
+            <Button variant="outline" class="text-blue-600 py-0 border hidden">
+                <RefreshCcw />
+            </Button>
+        </div>
+        <div>
+            <Button variant="link" class="text-blue-600 py-0 border">
+                <a
+                    href={InformePlantilla?.docUrl}
+                    class="flex gap-1 items-center"
+                    target="_blank"
+                >
+                    <FileText />
+                    Informe Proveido
+                </a>
+            </Button>
+            <Button variant="outline" class="text-blue-600 py-0 border hidden">
+                <RefreshCcw />
+            </Button>
+        </div>
     </div>
 
     <!-- PLANES SUBIDOS -->

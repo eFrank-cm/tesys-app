@@ -32,12 +32,9 @@
     </p>
 
     <!-- PLANES -->
-    <div class="flex flex-col-reverse gap-8">
+    <div class="flex flex-col gap-8">
         {#each planes as plan, index}
-            <RevisionPlan
-                {plan}
-                able={index + 1 === planes.length ? true : false}
-            />
+            <RevisionPlan {plan} able={index == 0} />
         {/each}
     </div>
 </div>

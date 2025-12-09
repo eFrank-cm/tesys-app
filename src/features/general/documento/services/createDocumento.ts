@@ -9,12 +9,13 @@ export interface DocumentoCreate {
 }
 
 export async function createDocumento(data: DocumentoCreate, file?: File) {
-    const url = `${URL_API}/general/documentos/create`
+    const url = `${URL_API}/documentos/create`
 
     const formData = new FormData()
     formData.append("form", JSON.stringify(data))
     if (file) formData.append("file", file)
 
+    console.log("formData")
     console.log(formData)
 
     try {

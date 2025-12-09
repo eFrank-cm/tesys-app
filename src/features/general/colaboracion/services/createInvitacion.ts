@@ -10,7 +10,7 @@ export interface ColaboracionCreate {
 }
 
 export async function createInvitacion(payload: ColaboracionCreate): Promise<Colaboracion> {
-    const url = `${URL_API}/general/colaboraciones/invitar`
+    const url = `${URL_API}/colaboraciones/invitar`
 
     try {
         const response = await fetch(url, {

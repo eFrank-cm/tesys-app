@@ -7,7 +7,7 @@ export interface DocumentoUpdate {
 }
 
 export async function editDocumento(documentoId: string, data: DocumentoUpdate, file?: File) {
-    const url = `${URL_API}/general/documentos/update/${documentoId}`
+    const url = `${URL_API}/documentos/${documentoId}`
     console.log(url)
 
     const formData = new FormData()

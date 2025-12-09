@@ -2,7 +2,7 @@ import { URL_API } from "$lib/config";
 import { deserializerColaboracion, type Colaboracion } from "../model";
 
 export async function getColaboracionesByProyectoId(proyectoId: string): Promise<Colaboracion[]> {
-    const url = `${URL_API}/general/colaboraciones/proyecto/${proyectoId}`
+    const url = `${URL_API}/colaboraciones/proyecto/${proyectoId}`
 
     try {
         const response = await fetch(url)

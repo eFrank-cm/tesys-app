@@ -10,7 +10,7 @@ export interface RevisionCreate {
 }
 
 export async function createRevision(payload: RevisionCreate) {
-    const url = `${URL_API}/plan-tesis/revisiones/create`
+    const url = `${URL_API}/revisiones/create`
     const b = decamelize(payload)
     console.log(b)
 

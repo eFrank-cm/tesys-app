@@ -1,7 +1,7 @@
 import { URL_API } from "$lib/config";
 
 export async function deleteTramiteById(tramiteId: string): Promise<void> {
-    const url = `${URL_API}/plan-tesis/tramites/${tramiteId}`
+    const url = `${URL_API}/tramites/${tramiteId}`
 
     try {
         const response = await fetch(url, {

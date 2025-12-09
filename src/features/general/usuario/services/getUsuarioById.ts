@@ -2,7 +2,7 @@ import { URL_API } from "$lib/config";
 import { deserializeUsuario, type Usuario } from "../model";
 
 export async function getUsuarioById(usuarioId: string): Promise<Usuario | null> {
-    const url = `${URL_API}/general/usuarios/${usuarioId}`
+    const url = `${URL_API}/usuarios/${usuarioId}`
 
     try {
         const response = await fetch(url)

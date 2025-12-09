@@ -2,7 +2,7 @@ import { URL_API } from "$lib/config";
 
 
 export async function deleteColaboracion(colaboracionId: string): Promise<void> {
-    const url = `${URL_API}/general/colaboraciones/${colaboracionId}`
+    const url = `${URL_API}/colaboraciones/${colaboracionId}`
 
     try {
         const response = await fetch(url, { method: "DELETE" })

@@ -11,6 +11,8 @@
     import { onMount } from "svelte";
     import { PropuestaStore } from "../../../planTesis/propuesta/store.svelte";
     import { ColaboracionStore } from "../store.svelte";
+    import { DocumentoStore } from "../../documento/store.svelte";
+    import { authStore } from "$lib/auth/store.svelte";
 
     interface Prop {
         invitacion?: Colaboracion | null;
@@ -41,6 +43,29 @@
             }).then(() => {
                 open = false;
             });
+
+        if (invitacion?.role === "ASESOR") {
+            DocumentoStore.create({
+                tipo: "PLANTILLA - CARTA DE ACEPTACION",
+                docUrl: "",
+                proyectoId: invitacion?.proyectoId ?? "",
+                usuarioId: authStore.user?.id ?? "",
+            });
+        } else if (invitacion?.role === "REVISOR") {
+            DocumentoStore.create({
+                tipo: "PLANTILLA - FORMATO DE EVALUACION",
+                docUrl: "",
+                proyectoId: invitacion?.proyectoId ?? "",
+                usuarioId: authStore.user?.id ?? "",
+            });
+
+            DocumentoStore.create({
+                tipo: "PLANTILLA - INFORME PROVEIDO",
+                docUrl: "",
+                proyectoId: invitacion?.proyectoId ?? "",
+                usuarioId: authStore.user?.id ?? "",
+            });
+        }
     }
 </script>
 

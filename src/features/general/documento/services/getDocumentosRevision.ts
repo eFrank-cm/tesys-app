@@ -2,7 +2,7 @@ import { URL_API } from "$lib/config";
 import { deserializerDocumento, type Documento } from "../model";
 
 export async function getDocumentosWithRevision(proyectoId: string, tipo?: string, creatorId?: string): Promise<Documento[]> {
-    let url = `${URL_API}/general/documentos/proyecto/${proyectoId}/revisiones?`
+    let url = `${URL_API}/documentos/${proyectoId}/with-revisiones?`
     if (tipo) url += `tipo=${tipo}&`
     if (creatorId) url += `creator_id=${creatorId}&`
     console.log(url)

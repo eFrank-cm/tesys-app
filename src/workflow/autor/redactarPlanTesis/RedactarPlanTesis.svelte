@@ -37,20 +37,26 @@
     }
 
     onMount(() => {
+        refresh();
+    });
+
+    function refresh() {
+        DocumentoStore.getDocumentosWithRevision(
+            proyectoId,
+            "CARTA DE ACEPTACION",
+        ).then((data) => {
+            carta = data[0] ?? null;
+        });
+
         getPlanesDeTesis();
         ColaboracionStore.getByProyectoId(proyectoId).then((data) => {
             const asesores = data.filter(
                 (col) => col.role === "ASESOR" && col.estado === "ACEPTADO",
             );
-            // if (asesores.length > 1) toast.error("Mas de 1 asesor asingado");
             if (asesores[0] && asesores[0].usuario)
                 asesor = asesores[0].usuario;
         });
-
-        DocumentoStore.getCarta(proyectoId).then((data) => {
-            if (data) carta = data;
-        });
-    });
+    }
 
     function handleChange(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -143,7 +149,7 @@
     </div>
 
     <!-- PLANES -->
-    <div class="flex flex-col-reverse gap-8">
+    <div class="flex flex-col gap-8">
         {#each planes as plan, index}
             <div class="flex items-start gap-2">
                 {#if plan.createdBy}
@@ -168,7 +174,7 @@
                                 Creado {formatDateToISO(plan.createdAt)}
                             </span>
                         </div>
-                        {#if index + 1 === planes.length && plan.revisiones.length === 0}
+                        {#if index === 0 && plan.revisiones.length === 0}
                             <div class="px-2">
                                 <Button
                                     variant="link"

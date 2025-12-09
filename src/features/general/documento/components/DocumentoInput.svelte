@@ -37,13 +37,8 @@
             tipo,
             creatorId,
         ).then((data) => {
-            if (data.length === 0) {
-                doc = null;
-            } else if (data.length === 1) {
-                doc = data[0];
-            } else {
-                toast.warning(`${tipo}: ${data.length}`);
-            }
+            console.log(data, tipo);
+            doc = data[0] ?? null;
         });
     }
 

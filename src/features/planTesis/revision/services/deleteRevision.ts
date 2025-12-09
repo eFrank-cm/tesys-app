@@ -1,7 +1,7 @@
 import { URL_API } from "$lib/config";
 
 export async function deleteRevisionById(revisionId: string) {
-    const url = `${URL_API}/plan-tesis/revisiones/${revisionId}`
+    const url = `${URL_API}/revisiones/${revisionId}`
     try {
         const response = await fetch(url, {
             method: 'DELETE'

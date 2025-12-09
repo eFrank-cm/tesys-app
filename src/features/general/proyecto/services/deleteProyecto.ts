@@ -2,7 +2,7 @@ import { URL_API } from "$lib/config";
 
 
 export async function deleteProyecto(proyectoId: string): Promise<void> {
-    const url = `${URL_API}/general/proyectos/${proyectoId}`
+    const url = `${URL_API}/proyectos/${proyectoId}`
     try {
         const response = await fetch(url, {
             method: "DELETE",

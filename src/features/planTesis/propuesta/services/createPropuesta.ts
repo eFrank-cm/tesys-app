@@ -6,10 +6,12 @@ export interface PropuestaCreate {
     titulo: string
     resumen: string
     proyectoId: string
+    usuarioId: string
 }
 
 export async function createPropuesta(payload: PropuestaCreate): Promise<Propuesta> {
-    const url = `${URL_API}/plan-tesis/propuestas/`
+    const url = `${URL_API}/propuestas/`
+
 
     try {
         const response = await fetch(url, {

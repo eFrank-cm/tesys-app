@@ -19,7 +19,7 @@ export interface UsuarioUpdate {
 
 
 export async function editUsuarioById(usuarioId: string, payload: UsuarioUpdate): Promise<Usuario> {
-    const url = `${URL_API}/general/usuarios/${usuarioId}`;
+    const url = `${URL_API}/usuarios/${usuarioId}`;
 
     try {
         const response = await fetch(url, {

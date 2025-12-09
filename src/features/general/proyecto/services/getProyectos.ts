@@ -3,7 +3,7 @@ import { deserializerProyecto, type Proyecto } from "../model"
 
 
 export async function getProyectos(): Promise<Proyecto[]> {
-    const url = `${URL_API}/general/proyectos`
+    const url = `${URL_API}/proyectos`
     try {
         const response = await fetch(url)
         if (!response.ok) {

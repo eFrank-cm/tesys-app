@@ -144,7 +144,7 @@
 					</Breadcrumb.Item>
 					<Breadcrumb.Separator />
 					<Breadcrumb.Page>
-						<Breadcrumb.Link href="/proyectos">
+						<Breadcrumb.Link href="/proyectos" class="text-white">
 							Proyectos
 						</Breadcrumb.Link>
 					</Breadcrumb.Page>

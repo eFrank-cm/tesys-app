@@ -9,7 +9,7 @@ export interface TramiteCreate {
 }
 
 export async function createTramite(payload: TramiteCreate): Promise<Tramite> {
-    const url = `${URL_API}/plan-tesis/tramites/create`
+    const url = `${URL_API}/tramites/create`
     console.log(url)
     console.log(payload)
 

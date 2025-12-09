@@ -9,7 +9,7 @@ export interface ProyectoCreate {
 }
 
 export async function createProyecto(payload: ProyectoCreate): Promise<Proyecto> {
-    const url = `${URL_API}/general/proyectos`
+    const url = `${URL_API}/proyectos`
 
     try {
         const response = await fetch(url, {

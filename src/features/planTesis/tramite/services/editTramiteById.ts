@@ -8,7 +8,7 @@ export interface TramiteUpdate {
 }
 
 export async function editTramiteById(tramiteId: string, payload: TramiteUpdate): Promise<Tramite> {
-    const url = `${URL_API}/plan-tesis/tramites/${tramiteId}`
+    const url = `${URL_API}/tramites/${tramiteId}`
 
     try {
         const response = await fetch(url, {
